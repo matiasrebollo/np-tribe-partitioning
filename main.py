@@ -1,4 +1,5 @@
 from csv import reader
+from copy import deepcopy
 import sys
 
 NOMBRE = 0
@@ -15,11 +16,26 @@ def parse(archivo):
 
 
 def backtracking(maestros, k):
-    pass
+    solucion_greedy = aprox_pakku(maestros, k) # Solucion aproximada
+    solucion = [solucion_greedy]
+    k_grupos_min_sum(maestros, [[] for i in range(k)], 0, solucion)
+    print(solucion)
+    return solucion[0]
 
 
-def verificador():
-    pass
+def k_grupos_min_sum(maestros, grupos, m, solucion):
+    if m == len(maestros):  # Ya se le asigno grupo a todos los maestros
+        if obtener_suma(grupos) < obtener_suma(solucion[0]):
+            solucion[0] = deepcopy(grupos)
+        return
+    
+    if obtener_suma(grupos) >= obtener_suma(solucion[0]):  # No se termino de asignar grupos pero la suma ya es mayor al optimo actual
+        return
+
+    for i in grupos:
+        i.append(maestros[m])
+        k_grupos_min_sum(maestros, grupos, m + 1, solucion)
+        i.pop()
 
 
 def obtener_suma(grupos):
@@ -40,7 +56,7 @@ def aprox_pakku(maestros, k):
     # Formo los k grupos vacios
     grupos = []
     for i in range(k):
-        grupos.append(set())
+        grupos.append([])
 
     # Ordeno los maestros por poder de forma decreciente
     maestros.sort(reverse = True, key = lambda m: m[PODER])
@@ -48,9 +64,20 @@ def aprox_pakku(maestros, k):
     for maestro in maestros:
         # Agrego el maestro al grupo de menor suma
         grupo = min(grupos, key=suma_grupo) # O(n²), optimizable e.g. con dict
-        grupo.add(maestro)
+        grupo.append(maestro)
 
     return grupos    
+
+
+def imprimir_grupos(grupos):
+    contador = 1
+    for grupo in grupos:
+        print("Grupo", contador, end=": ")
+        print(", ".join([i[NOMBRE] for i in grupo]))
+        contador += 1
+
+    print("Coeficiente: ", obtener_suma(grupos))
+
 
 
 def main():
@@ -58,8 +85,11 @@ def main():
         sys.exit("USAGE: python main.py <path-a-dataset>")
     
     k, maestros = parse(sys.argv[1])
-    print(k, maestros)
-    print(aprox_pakku(maestros, k))
+    aprox = aprox_pakku(maestros, k)
+    imprimir_grupos(aprox)
+    print("")
+    bt = backtracking(maestros, k)
+    imprimir_grupos(bt)
 
 
 
