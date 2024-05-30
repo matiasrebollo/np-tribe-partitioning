@@ -47,3 +47,18 @@ Opcional: Implementar alguna otra aproximación (o algoritmo greedy) que les par
 
 Agregar cualquier conclusión que parezca relevante.
 
+# Ejecución
+
+Para ejecutar el programa, ingresar en una terminal:
+|   `python main.py <path-a-dataset>` |
+|:-------:|
+
+Por ejemplo: `python main.py pruebas_drive\5_2.txt`
+
+El programa imprimirá por pantalla los grupos y el coeficiente obtenido para cada uno de los algoritmos utilizados.
+
+Aclaración: el path al dataset debe ser el relativo desde el root del repositorio.
+
+Para ejecutar los tests, ingresar en una terminal:
+|`python tests.py`  |
+|:-------:|

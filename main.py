@@ -76,7 +76,7 @@ def imprimir_grupos(grupos):
         print(", ".join([i[NOMBRE] for i in grupo]))
         contador += 1
 
-    print("Coeficiente: ", obtener_suma(grupos))
+    print("Coeficiente:", obtener_suma(grupos))
 
 
 
