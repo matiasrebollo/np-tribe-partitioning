@@ -1,0 +1,23 @@
+name: Python Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Python Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Run tests
+      run: python tests.py

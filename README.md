@@ -1,4 +1,4 @@
-# TDA_TP3
+# Trabajo Práctico 3: Problemas NP-Completos para la defensa de la Tribu del Agua
 
 ## Introducción
 
@@ -47,7 +47,7 @@ Opcional: Implementar alguna otra aproximación (o algoritmo greedy) que les par
 
 Agregar cualquier conclusión que parezca relevante.
 
-# Ejecución
+## Ejecución
 
 Para ejecutar el programa, ingresar en una terminal:
 |   `python main.py <path-a-dataset>` |
@@ -56,8 +56,6 @@ Para ejecutar el programa, ingresar en una terminal:
 Por ejemplo: `python main.py pruebas_drive\5_2.txt`
 
 El programa imprimirá por pantalla los grupos y el coeficiente obtenido para cada uno de los algoritmos utilizados.
-
-Aclaración: el path al dataset debe ser el relativo desde el root del repositorio.
 
 Para ejecutar los tests, ingresar en una terminal:
 |`python tests.py`  |
