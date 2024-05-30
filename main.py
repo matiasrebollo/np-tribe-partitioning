@@ -19,7 +19,6 @@ def backtracking(maestros, k):
     solucion_greedy = aprox_pakku(maestros, k) # Solucion aproximada
     solucion = [solucion_greedy]
     k_grupos_min_sum(maestros, [[] for i in range(k)], 0, solucion)
-    print(solucion)
     return solucion[0]
 
 
@@ -42,12 +41,16 @@ def obtener_suma(grupos):
     """Devuelve la suma de cuadrados total."""
     suma_total = 0
     for grupo in grupos:
-        suma_total += suma_grupo(grupo) ** 2
+        suma_total += cuadrado_suma_grupo(grupo)
     return suma_total
 
 
-def suma_grupo(grupo):
-    return(sum([i[PODER] for i in grupo]))
+def cuadrado_suma_grupo(grupo):
+    suma = 0
+    for maestro in grupo:
+        suma += maestro[PODER]
+
+    return suma ** 2
 
 
 def aprox_pakku(maestros, k):
@@ -55,7 +58,7 @@ def aprox_pakku(maestros, k):
 
     # Formo los k grupos vacios
     grupos = []
-    for i in range(k):
+    for _ in range(k):
         grupos.append([])
 
     # Ordeno los maestros por poder de forma decreciente
@@ -63,7 +66,7 @@ def aprox_pakku(maestros, k):
 
     for maestro in maestros:
         # Agrego el maestro al grupo de menor suma
-        grupo = min(grupos, key=suma_grupo) # O(n²), optimizable e.g. con dict
+        grupo = min(grupos, key=cuadrado_suma_grupo) # O(n²), optimizable e.g. con dict
         grupo.append(maestro)
 
     return grupos    
@@ -85,11 +88,13 @@ def main():
         sys.exit("USAGE: python main.py <path-a-dataset>")
     
     k, maestros = parse(sys.argv[1])
-    aprox = aprox_pakku(maestros, k)
-    imprimir_grupos(aprox)
-    print("")
-    bt = backtracking(maestros, k)
-    imprimir_grupos(bt)
+    grupos_aprox = aprox_pakku(maestros, k)
+    print("SOLUCION POR APROXIMACION DE PAKKU (GREEDY)")
+    imprimir_grupos(grupos_aprox)
+
+    print("\nSOLUCION POR BACKTRACKING")
+    grupos_bt = backtracking(maestros, k)
+    imprimir_grupos(grupos_bt)
 
 
 
