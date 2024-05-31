@@ -17,24 +17,24 @@ def parse(archivo):
 
 def backtracking(maestros, k):
     solucion_greedy = aprox_pakku(maestros, k) # Solucion aproximada
-    solucion = [solucion_greedy]
-    k_grupos_min_sum(maestros, [[] for i in range(k)], 0, solucion)
+    solucion = [solucion_greedy, obtener_suma(solucion_greedy)]
+    k_grupos_min_sum(maestros, [[] for _ in range(k)], 0, solucion)
     return solucion[0]
 
 
 def k_grupos_min_sum(maestros, grupos, m, solucion):
     if m == len(maestros):  # Ya se le asigno grupo a todos los maestros
-        if obtener_suma(grupos) < obtener_suma(solucion[0]):
+        if obtener_suma(grupos) < solucion[1]:
             solucion[0] = deepcopy(grupos)
         return
     
-    if obtener_suma(grupos) >= obtener_suma(solucion[0]):  # No se termino de asignar grupos pero la suma ya es mayor al optimo actual
+    if obtener_suma(grupos) >= solucion[1]:  # No se termino de asignar grupo a todos los maestros pero la suma ya es mayor al optimo actual
         return
 
-    for i in grupos:
-        i.append(maestros[m])
+    for grupo in grupos:
+        grupo.append(maestros[m])
         k_grupos_min_sum(maestros, grupos, m + 1, solucion)
-        i.pop()
+        grupo.pop()
 
 
 def obtener_suma(grupos):
@@ -49,12 +49,11 @@ def cuadrado_suma_grupo(grupo):
     suma = 0
     for maestro in grupo:
         suma += maestro[PODER]
-
     return suma ** 2
 
 
 def aprox_pakku(maestros, k):
-    """Algoritmo greedy propuesto en el enunciado"""
+    """Algoritmo greedy propuesto en el enunciado."""
 
     # Formo los k grupos vacios
     grupos = []
@@ -66,17 +65,17 @@ def aprox_pakku(maestros, k):
 
     for maestro in maestros:
         # Agrego el maestro al grupo de menor suma
-        grupo = min(grupos, key=cuadrado_suma_grupo) # O(n²), optimizable e.g. con dict
+        grupo = min(grupos, key=cuadrado_suma_grupo) # O(n), optimizable e.g. con dict?
         grupo.append(maestro)
 
     return grupos    
 
 
-def imprimir_grupos(grupos):
+def imprimir_solucion(grupos):
     contador = 1
     for grupo in grupos:
         print("Grupo", contador, end=": ")
-        print(", ".join([i[NOMBRE] for i in grupo]))
+        print(", ".join([maestro[NOMBRE] for maestro in grupo]))
         contador += 1
 
     print("Coeficiente:", obtener_suma(grupos))
@@ -90,11 +89,11 @@ def main():
     k, maestros = parse(sys.argv[1])
     grupos_aprox = aprox_pakku(maestros, k)
     print("SOLUCION POR APROXIMACION DE PAKKU (GREEDY)")
-    imprimir_grupos(grupos_aprox)
+    imprimir_solucion(grupos_aprox)
 
     print("\nSOLUCION POR BACKTRACKING")
     grupos_bt = backtracking(maestros, k)
-    imprimir_grupos(grupos_bt)
+    imprimir_solucion(grupos_bt)
 
 
 
