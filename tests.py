@@ -44,7 +44,7 @@ class Test(unittest.TestCase):
         self.assertEqual(obtener_suma(grupos_aprox), 355882)
         self.assertEqual(obtener_suma(grupos_bt), 355882)
         
-    def test_drive_10_10(self): # . sec solo, 126.4 sec con todos los anteriores
+    def test_drive_10_10(self): # 122.899 sec solo
         k, maestros = parse("pruebas_drive/10_10.txt")
         grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
