@@ -60,42 +60,42 @@ class Test(unittest.TestCase):
         
     def test_drive_14_3(self):
         k, maestros = parse("pruebas_drive/14_3.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 15659106)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 15659106)
     
     def test_drive_14_4(self):
         k, maestros = parse("pruebas_drive/14_4.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 15292055)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 15292055)
 
     def test_drive_14_6(self):
         k, maestros = parse("pruebas_drive/14_6.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 10694510)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 10694510)
         
     def test_drive_15_4(self):
         k, maestros = parse("pruebas_drive/15_4.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 4311889)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 4311889)
         
     def test_drive_15_6(self):
         k, maestros = parse("pruebas_drive/15_6.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 6377225)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 6377225)
         
     def test_drive_17_5(self):
         k, maestros = parse("pruebas_drive/17_5.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 15974095)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 15974095)
@@ -109,42 +109,42 @@ class Test(unittest.TestCase):
 
     def test_drive_17_10(self):
         k, maestros = parse("pruebas_drive/17_10.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 5427764)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 5427764)
 
     def test_drive_18_6(self):
         k, maestros = parse("pruebas_drive/18_6.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 10322822)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 10322822)
 
     def test_drive_18_8(self):
         k, maestros = parse("pruebas_drive/18_8.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 11971097)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 11971097)
 
     def test_drive_20_4(self):
         k, maestros = parse("pruebas_drive/20_4.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 21081875)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 21081875)
 
     def test_drive_20_5(self):
         k, maestros = parse("pruebas_drive/20_5.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 16828799)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 16828799)
     
     def test_drive_20_8(self):
         k, maestros = parse("pruebas_drive/20_8.txt")
-        grupos_aprox = aprox_pakku(maestros, k)
+        # grupos_aprox = aprox_pakku(maestros, k)
         grupos_bt = backtracking(maestros, k)
         # self.assertEqual(obtener_suma(grupos_aprox), 11417428)  # no da la solucion optima
         self.assertEqual(obtener_suma(grupos_bt), 11417428)
