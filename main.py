@@ -95,6 +95,9 @@ def main():
     grupos_bt = backtracking(maestros, k)
     imprimir_solucion(grupos_bt)
 
+    print("\nCOTA DE APROXIMACION POR PROGRAMACION LINEAL")
+    
+
 
 
 if __name__ == '__main__':
