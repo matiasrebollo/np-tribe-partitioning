@@ -1,6 +1,7 @@
 from csv import reader
 from copy import deepcopy
 import sys
+import pulp
 
 NOMBRE = 0
 PODER = 1
@@ -70,6 +71,27 @@ def aprox_pakku(maestros, k):
 
     return grupos    
 
+def programacion_lineal(maestros, k):
+    n = len(maestros)
+
+    #Inicializamos el problema y sus variables
+    problem = pulp.LpProblem("grupos_balanceados", pulp.LpMinimize)
+    p = pulp.LpVariable.dicts("x", [(i, j) for i in range(n) for j in range(k), cat = "Binary")
+    S = pulp.LpVariable.dicts("S", range(k), cat = "Continuous")
+    M = pulp.LpVariable("M", cat = "Continuous")
+    m = pulp.LpVariable("m", cat = "Continuous")
+
+    #Planteamos restricciones
+    for i in range(n): #Cada maestro debe pertenecer exactamente a un grupo
+        problem += pulp.lpSum(p[(i, j)] for j in range(k)) == 1
+    for j in range(k): 
+        problem += S[j] == pulp.LpSum(p[(i, j)] * maestros[i] for i in range(n)) #Calculamos las sumas de cada grupo
+        problem += S[j] <= M
+        problem += S[j] >= m
+    problem += M - m
+    problem.solve()
+
+
 
 def imprimir_solucion(grupos):
     contador = 1
@@ -96,6 +118,7 @@ def main():
     imprimir_solucion(grupos_bt)
 
     print("\nCOTA DE APROXIMACION POR PROGRAMACION LINEAL")
+    programacion_lineal(maestros, k)
     
 
 
