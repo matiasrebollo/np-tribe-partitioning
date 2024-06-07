@@ -76,7 +76,7 @@ def programacion_lineal(maestros, k):
 
     #Inicializamos el problema y sus variables
     problem = pulp.LpProblem("grupos_balanceados", pulp.LpMinimize)
-    p = pulp.LpVariable.dicts("x", [(i, j) for i in range(n) for j in range(k), cat = "Binary")
+    p = pulp.LpVariable.dicts("x", [(i, j) for i in range(n) for j in range(k)], cat = "Binary")
     S = pulp.LpVariable.dicts("S", range(k), cat = "Continuous")
     M = pulp.LpVariable("M", cat = "Continuous")
     m = pulp.LpVariable("m", cat = "Continuous")
@@ -85,11 +85,11 @@ def programacion_lineal(maestros, k):
     for i in range(n): #Cada maestro debe pertenecer exactamente a un grupo
         problem += pulp.lpSum(p[(i, j)] for j in range(k)) == 1
     for j in range(k): 
-        problem += S[j] == pulp.LpSum(p[(i, j)] * maestros[i][PODER] for i in range(n)) #Calculamos las sumas de cada grupo
+        problem += S[j] == pulp.lpSum(p[(i, j)] * maestros[i][PODER] for i in range(n)) #Calculamos las sumas de cada grupo
         problem += S[j] <= M
         problem += S[j] >= m
     problem += M - m
-    problem.solve()
+    problem.solve(pulp.PULP_CBC_CMD(msg=False))
 
     grupos = [[] for _ in range(k)]
     for j in range(k):
@@ -127,7 +127,6 @@ def main():
     grupos_pl = programacion_lineal(maestros, k)
     imprimir_solucion(grupos_pl)
     
-
 
 
 if __name__ == '__main__':
