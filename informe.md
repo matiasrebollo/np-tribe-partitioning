@@ -39,7 +39,7 @@ def verificar_solucion(M: set, k: int, B: int, S: list[set]) -> bool:
 
 ```
 
-Complejidad Temporal: $\mathcal{O}(n)$ en funcion de la entrada.
+Complejidad Temporal: $\mathcal{O}(n)$ en funcion de la entrada. falta justificar un poco
 
 
 ## El problema es NP-Completo
