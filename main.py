@@ -94,7 +94,7 @@ def programacion_lineal(maestros, k):
     grupos = [[] for _ in range(k)]
     for j in range(k):
         grupo = [i for i in range(n) if pulp.value(p[(i, j)]) == 1]
-        grupos[j] = [maestros[i][0] for i in grupo]
+        grupos[j] = [maestros[i][NOMBRE] for i in grupo]
     return grupos
 
 
