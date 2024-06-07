@@ -85,11 +85,17 @@ def programacion_lineal(maestros, k):
     for i in range(n): #Cada maestro debe pertenecer exactamente a un grupo
         problem += pulp.lpSum(p[(i, j)] for j in range(k)) == 1
     for j in range(k): 
-        problem += S[j] == pulp.LpSum(p[(i, j)] * maestros[i] for i in range(n)) #Calculamos las sumas de cada grupo
+        problem += S[j] == pulp.LpSum(p[(i, j)] * maestros[i][PODER] for i in range(n)) #Calculamos las sumas de cada grupo
         problem += S[j] <= M
         problem += S[j] >= m
     problem += M - m
     problem.solve()
+
+    grupos = [[] for _ in range(k)]
+    for j in range(k):
+        grupo = [i for i in range(n) if pulp.value(p[(i, j)]) == 1]
+        grupos[j] = [maestros[i][0] for i in grupo]
+    return grupos
 
 
 
@@ -117,8 +123,9 @@ def main():
     grupos_bt = backtracking(maestros, k)
     imprimir_solucion(grupos_bt)
 
-    print("\nCOTA DE APROXIMACION POR PROGRAMACION LINEAL")
-    programacion_lineal(maestros, k)
+    print("\nSOLUCION POR PROGRAMACION LINEAL")
+    grupos_pl = programacion_lineal(maestros, k)
+    imprimir_solucion(grupos_pl)
     
 
 
