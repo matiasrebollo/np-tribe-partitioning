@@ -96,6 +96,27 @@ Finalmente, $SS \le_{p} MA$, y como MA es NP, el problema de los maestros de agu
 # Algoritmos y complejidad
 ## Backtracking
 ## Programación lineal
+
+### Formulacion del problema
+#### Definicion de variables
+
++ $n$: Número de maestros agua.
++ $k$: Número de grupos.
++ $x_i$: Habilidad del maestro $i$ (valores positivos).
++ $p_ij$: Variable binaria que indica si el maestro $i$ está en el grupo $j$ ($p_ij = 1$) o no ($p_ij = 0$).
++ $S_j$: Suma de habilidades del grupo $j$.
++ $M$: Máxima suma de habilidades entre todos los grupos.
++ $m$: Mínima suma de habilidades entre todos los grupos.
+
+#### Función objetivo
+
+El objetivo es minimizar la diferencia entre la suma de habilidades del grupo con la mayor suma y el grupo con la menor suma:
+
+$$
+Minimizar: Z = M - m
+$$
+
+... falta
 ## Greedy
 
 # Casos de prueba
