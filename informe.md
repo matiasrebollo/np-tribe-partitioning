@@ -97,7 +97,48 @@ Finalmente, $SS \le_{p} MA$, y como MA es NP, el problema de los maestros de agu
 ## Backtracking
 ## Programación lineal
 
-### Formulacion del problema
+### Version Optima
+
+#### Constantes
+
++ $n$: Número de maestros agua.
++ $k$: Número de grupos.
++ $c_i$: Habilidad del maestro $i$ (valores positivos).
+
+#### Variables
+
++ $X_{ij}$: Variable booleana, "maestro $i$ en el grupo $j$"
++ $Y_{ijw}$: Variable booleana, $X_{iw} \land X_{jw}$
++ $S_i$: Cuadrado de la suma de poder de los maestros del grupo $i$.
+
+#### Restricciones
+
++ _Cada maestro i debe ser asignado a un único grupo:_
+
+$$
+\sum_{j=1}^{k} X_{ij} = 1 \forall i
+$$
+
++ $Y_{ijw} = X_{iw} \land X_{jw}$:
+
+$$
+2Y_{ijw} \le X_{iw} + X_{jw} \le Y_{ijw} + 1
+$$
+
++ Desarrollo del cuadrado de la suma de poderes de un grupo:
+
+$$
+S_w = \left({\sum\_{i = 1}^{n}c_i\cdot X_{iw}}\right)^2 = \sum\_{i = 1}^{n}c_i^2\cdot X_{iw} + 2\left({\sum_{i=1}^{n}\sum\_{j = i+1}^{n}c_ic_j\cdot Y_{ijw}}\right) \forall w
+$$
+
+#### Función objetivo
+
+$$
+\min \sum_{i=1}^k S_i
+$$
+
+### Version Aproximada
+
 #### Definicion de variables
 
 + $n$: Número de maestros agua.
