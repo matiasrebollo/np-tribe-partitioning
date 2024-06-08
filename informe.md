@@ -112,10 +112,9 @@ Finalmente, $SS \le_{p} MA$, y como MA es NP, el problema de los maestros de agu
 
 El objetivo es minimizar la diferencia entre la suma de habilidades del grupo con la mayor suma y el grupo con la menor suma:
 
-\[
-\text{Minimizar } Z = M - m
-\]
-
+$$
+Minimizar Z = M - m
+$$
 
 ## Greedy
 
