@@ -96,6 +96,13 @@ Finalmente, $SS \le_{p} MA$, y como MA es NP, el problema de los maestros de agu
 # Algoritmos y complejidad
 ## Backtracking
 ## Programación lineal
+
+###Formulacion del problema
+####Definicion de variables
++ $n$: Numero de maestros agua.
++ $k$: Numero de grupos.
++ \( x_i \): Habilidad del maestro \( i \) (valores positivos).
+
 ## Greedy
 
 # Casos de prueba
