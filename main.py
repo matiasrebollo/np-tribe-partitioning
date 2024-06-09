@@ -25,8 +25,10 @@ def backtracking(maestros, k):
 
 def k_grupos_min_sum(maestros, grupos, m, solucion):
     if m == len(maestros):  # Ya se le asigno grupo a todos los maestros
-        if obtener_suma(grupos) < solucion[1]:
+        suma_actual = obtener_suma(grupos)
+        if suma_actual < solucion[1]:
             solucion[0] = deepcopy(grupos)
+            solucion[1] = suma_actual
         return
     
     if obtener_suma(grupos) >= solucion[1]:  # No se termino de asignar grupo a todos los maestros pero la suma ya es mayor al optimo actual
@@ -71,7 +73,7 @@ def aprox_pakku(maestros, k):
 
     return grupos    
 
-def programacion_lineal(maestros, k):
+def aprox_programacion_lineal(maestros, k):
     n = len(maestros)
 
     #Inicializamos el problema y sus variables
@@ -123,8 +125,8 @@ def main():
     grupos_bt = backtracking(maestros, k)
     imprimir_solucion(grupos_bt)
 
-    print("\nSOLUCION POR PROGRAMACION LINEAL")
-    grupos_pl = programacion_lineal(maestros, k)
+    print("\nSOLUCION POR PROGRAMACION LINEAL (APROXIMACION)")
+    grupos_pl = aprox_programacion_lineal(maestros, k)
     imprimir_solucion(grupos_pl)
     
 

@@ -15,7 +15,7 @@ $$
 \sum^{k}_{i=1} {\left({\sum\_{x_j\in S_i}x_j}\right)}^2 \le B
 $$
 
-A continuacion se presenta la implementacion de dicho algoritmo en python:
+A continuación se presenta la implementación de dicho algoritmo en Python:
 
 
 ```python
