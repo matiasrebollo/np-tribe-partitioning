@@ -6,7 +6,6 @@ import pulp
 NOMBRE = 0
 PODER = 1
 
-
 def parse(archivo):
     with open(archivo) as f:
         r = reader(f)
@@ -15,13 +14,11 @@ def parse(archivo):
         maestros = [tuple([m, int(p)]) for (m, p) in maestros_aux]
     return k, maestros
 
-
 def backtracking(maestros, k):
     solucion_greedy = aprox_pakku(maestros, k) # Solucion aproximada
     solucion = [solucion_greedy, obtener_suma(solucion_greedy)]
     k_grupos_min_sum(maestros, [[] for _ in range(k)], 0, solucion)
     return solucion[0]
-
 
 def k_grupos_min_sum(maestros, grupos, m, solucion):
     if m == len(maestros):  # Ya se le asigno grupo a todos los maestros
@@ -39,7 +36,6 @@ def k_grupos_min_sum(maestros, grupos, m, solucion):
         k_grupos_min_sum(maestros, grupos, m + 1, solucion)
         grupo.pop()
 
-
 def obtener_suma(grupos):
     """Devuelve la suma de cuadrados total."""
     suma_total = 0
@@ -47,17 +43,14 @@ def obtener_suma(grupos):
         suma_total += cuadrado_suma_grupo(grupo)
     return suma_total
 
-
 def cuadrado_suma_grupo(grupo):
     suma = 0
     for maestro in grupo:
         suma += maestro[PODER]
     return suma ** 2
 
-
 def aprox_pakku(maestros, k):
     """Algoritmo greedy propuesto en el enunciado."""
-
     # Formo los k grupos vacios
     grupos = []
     for _ in range(k):
@@ -99,8 +92,6 @@ def aprox_programacion_lineal(maestros, k):
         grupos[j] = [maestros[i] for i in grupo]
     return grupos
 
-
-
 def imprimir_solucion(grupos):
     contador = 1
     for grupo in grupos:
@@ -109,8 +100,6 @@ def imprimir_solucion(grupos):
         contador += 1
 
     print("Coeficiente:", obtener_suma(grupos))
-
-
 
 def main():
     if len(sys.argv) != 2:
@@ -129,7 +118,6 @@ def main():
     grupos_pl = aprox_programacion_lineal(maestros, k)
     imprimir_solucion(grupos_pl)
     
-
 
 if __name__ == '__main__':
     main()

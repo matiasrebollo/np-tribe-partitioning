@@ -1,10 +1,9 @@
 # Objetivo
-
+En el presente trabajo se llevará a cabo el desarrollo y análisis de algoritmos de Backtracking y Programación Lineal para resolver un problema NP-Completo, así como el análisis de posibles aproximaciones. También se realizará una demostración de la clase de complejidad del mismo.
 
 # Análisis del problema
 ## El problema es NP
-
-Para demostrar que el problema está en NP, basta con implementar un verificador del problema de complejidad polinomial en funcion a la entrada.
+Para demostrar que el problema se encuentra en NP, basta con implementar un verificador del problema de complejidad polinomial en función al tamaño de la entrada.
 En otras palabras, debemos implementar un programa que, dado un conjunto de $n$ maestros $M$, una cantidad de grupos $k$, un numero $B$, y $l$ conjuntos $S_1, S_2, \cdots, S_l$, defina si esos conjuntos son una solución al problema de los maestros de agua.
 
 $S$ es solución si cumple con las siguientes condiciones:
