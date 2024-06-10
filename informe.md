@@ -186,6 +186,12 @@ $$
 S_j \geq m \quad \forall j \in \{1, 2, \ldots, k\}
 $$
 
+#### Análisis de complejidad
+
+Para resolver el problema, utilizamos el método Simplex, que es un algoritmo para resolver problemas de programación lineal (PL). El método Simplex es eficiente y efectivo para encontrar soluciones óptimas en problemas de PL cuando las restricciones y la función objetivo son lineales.
+Sin embargo, en este caso específico, algunas de nuestras variables son binarias, lo que significa que pueden tomar únicamente los valores 0 o 1. Debido a la presencia de estas variables, el problema se clasifica como un problema de Programación Lineal Entera (PLE). 
+La complejidad de resolver un problema de PLE es, en el peor de los casos, exponencial en el número de variables binarias. Esto significa que a medida que el número de variables binarias aumenta, el tiempo de cómputo necesario para resolver el problema puede crecer exponencialmente.
+
 ## Greedy
 
 # Casos de prueba
