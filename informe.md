@@ -170,7 +170,21 @@ $$
 \sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
 $$
 
++ La suma de habilidades del grupo $j$ debe ser igual a la suma de las habilidades de los maestros asignados a ese grupo:
 
+$$
+S_j = \sum_{i=1}^{n} p_{ij} \cdot x_i \quad \forall j \in \{1, 2, \ldots, k\}
+$$
+
++ Máxima y mínima suma de habilidades:
+
+$$
+S_j \leq M \quad \forall j \in \{1, 2, \ldots, k\}
+$$
+
+$$
+S_j \geq m \quad \forall j \in \{1, 2, \ldots, k\}
+$$
 
 ## Greedy
 
