@@ -163,7 +163,15 @@ $$
 Minimizar: Z = M - m
 $$
 
-... falta
+#### Restricciones
++ Cada maestro debe estar asignado exactamente a un grupo:
+
+$$
+\sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
+$$
+
+
+
 ## Greedy
 
 # Casos de prueba
