@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
 import unittest
 from bt import backtracking
 from pakku import aprox_pakku
