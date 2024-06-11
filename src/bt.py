@@ -13,12 +13,12 @@ def _backtracking(maestros, grupos, m, solucion_anterior, suma_anterior):
     if m == len(maestros): # Se le asigno grupo a todos los maestros
         suma_actual = obtener_suma(grupos)
         if suma_actual < suma_anterior:
-            return grupos[:]
-        return solucion_anterior[:]
+            return deepcopy(grupos)
+        return deepcopy(solucion_anterior)
     
     if obtener_suma(grupos) >= suma_anterior: 
         # No se termino de asignar grupo a todos los maestros pero la suma ya es mayor al optimo actual
-        return solucion_anterior[:]
+        return deepcopy(solucion_anterior)
     
     optimo_actual = solucion_anterior
     suma_opt = suma_anterior
@@ -26,9 +26,10 @@ def _backtracking(maestros, grupos, m, solucion_anterior, suma_anterior):
     for grupo in grupos:
         grupo.append(maestros[m])
         optimo_actual = _backtracking(maestros, grupos, m + 1, optimo_actual, suma_opt)
+        suma_opt = obtener_suma(optimo_actual)
         grupo.pop()
 
-    return optimo_actual[:]
+    return deepcopy(optimo_actual)
 
 # def backtracking(maestros, k):
 #     solucion_greedy = aprox_pakku(maestros, k) # Solucion aproximada
