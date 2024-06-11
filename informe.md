@@ -87,17 +87,13 @@ Por lo tanto, si se encuentra solución a TA con $B = 2(sum(S) + T)^2$, debe exi
 
 #### Si hay solución a SS
 Suponiendo que existe una solución $S'$ tal que $sum(S') = T$, entonces $sum(S' \cup z1) = sum(S-S'\cup z2)$ por lo que es posible dividir en dos grupos de mismo poder $S_1 = \set{S', z_1}$ y $S_2 = \set{S-S', z_2}$, que es la mejor solución a TA. Desarrollando el coeficiente:
-
 $$
 \sum^{k}_{i=1} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 + sum(S_2)^2 = (sum(S) + T)^2 + (sum(S)-T + 2T)^2 = (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
 $$
-
 Por lo tanto, existe una división de maestros tal que:
-
 $$
 \sum^{k}_{i=1} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 \le 2(T + sum(S))^2
 $$
-
 Finalmente, SS $\le_{p}$ TA y como TA es NP, también es NP-Completo.
  
 # Algoritmos y complejidad
@@ -106,13 +102,11 @@ Finalmente, SS $\le_{p}$ TA y como TA es NP, también es NP-Completo.
 ## Programación lineal
 ### Versión óptima
 #### Constantes
-
 + $n$: número de maestros agua.
 + $k$: número de grupos.
 + $c_i$: poder del maestro $i$ (valores positivos).
 
-#### Variables
-
+#### Definición de variables
 + $X_{ij}$: variable booleana, "maestro $i$ en el grupo $j$"
 + $Y_{ijw}$: variable booleana, $X_{iw} \land X_{jw}$
 + $S_i$: cuadrado de la suma de poder de los maestros del grupo $i$.
@@ -132,19 +126,16 @@ $$
 $$
 
 + Desarrollo del cuadrado de la suma de poderes de un grupo:
-
 $$
 S_w = \left({\sum\_{i = 1}^{n}c_i\cdot X_{iw}}\right)^2 = \sum\_{i = 1}^{n}c_i^2\cdot X_{iw} + 2\left({\sum_{i=1}^{n}\sum\_{j = i+1}^{n}c_ic_j\cdot Y_{ijw}}\right) \forall w
 $$
 
 #### Función objetivo
-
 $$
 \min \sum_{i=1}^k S_i
 $$
 
 ### Versión aproximada
-
 #### Definición de variables
 + $n$: número de maestros agua.
 + $k$: número de grupos.
@@ -156,23 +147,17 @@ $$
 
 #### Restricciones
 + Cada maestro debe estar asignado exactamente a un grupo:
-
 $$
 \sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
 $$
-
 + La suma de poder del grupo $j$ debe ser igual a la suma de las poder de los maestros asignados a ese grupo:
-
 $$
 S_j = \sum_{i=1}^{n} p_{ij} \cdot x_i \quad \forall j \in \{1, 2, \ldots, k\}
 $$
-
 + Máxima y mínima suma de poder:
-
 $$
 S_j \leq M \quad \forall j \in \{1, 2, \ldots, k\}
 $$
-
 $$
 S_j \geq m \quad \forall j \in \{1, 2, \ldots, k\}
 $$
@@ -184,14 +169,14 @@ $$
 $$
 
 #### Análisis de complejidad
+Para resolver el problema se utiliza el método Simplex, que es un algoritmo utilizado en problemas de Programación Lineal (PL). Este método es eficiente para encontrar soluciones óptimas en problemas de PL cuando las restricciones y la función objetivo son lineales y las variables pueden tomar valores reales.
 
-Para resolver el problema, utilizamos el método Simplex, que es un algoritmo para resolver problemas de programación lineal (PL). El método Simplex es eficiente y efectivo para encontrar soluciones óptimas en problemas de PL cuando las restricciones y la función objetivo son lineales.
+Sin embargo, en este caso específico, algunas de las variables son binarias y pueden tomar únicamente los valores 0 o 1. Debido a la presencia de las mismas, el problema se clasifica como un problema de Programación Lineal Entera (PLE). 
 
-Sin embargo, en este caso específico, algunas de nuestras variables son binarias, lo que significa que pueden tomar únicamente los valores 0 o 1. Debido a la presencia de estas variables, el problema se clasifica como un problema de Programación Lineal Entera (PLE). 
-
-La complejidad de resolver un problema de PLE es, en el peor de los casos, exponencial en el número de variables binarias. Esto significa que a medida que el número de variables binarias aumenta, el tiempo de cómputo necesario para resolver el problema puede crecer exponencialmente.
+La complejidad de resolver un problema de PLE utilizando el algoritmo _branch-and-bound_ es, en el peor de los casos, exponencial en función del número de variables binarias. Por lo tanto, es $\mathcal{O}(2^{nk})$ lo cual implica que a medida que el número de variables binarias aumenta (mayor cantidad de maestros y/o grupos), el tiempo de cómputo necesario para resolver el problema crece exponencialmente.
 
 ## Greedy
+
 
 # Casos de prueba
 
