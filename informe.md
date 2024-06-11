@@ -113,6 +113,44 @@ Se propusieron varios algoritmos siguiendo distintas tecnicas de programación, 
 
 ## Backtracking
 
+Implementamos el siguiente algoritmo:
+
+0. Calculo una aproximación con un algoritmo greedy, que sirva como poda inicial.
+1. Elijo un grupo y asigno al maestro actual a tal grupo.
+2. Avanzo al siguiente maestro, con la mejor solución calculada hasta el momento (inicialmente la greedy).
+    - Si la asignación actual cubre todos los maestros, devuelvo entre esta y mejor solución hasta el paso anterior, aquella con menor coeficiente.
+    - Si no se terminaron de repartir los maestros pero el coeficiente actual ya supera el mejor coeficiente hasta el momento, retrocedo y vuelvo a al paso 1 con          otro grupo.
+3. Si llegué hasta acá, ya se evaluó todas las asignaciones posible para el maestro actual, devuelvo la mejor.
+
+```python
+def backtracking(maestros, k):
+    solucion_greedy = aprox_pakku(maestros, k) # Solucion aproximada
+    suma_greedy = obtener_suma(solucion_greedy)
+    solucion = _backtracking(maestros, [[] for _ in range(k)], 0, solucion_greedy, suma_greedy)
+    return solucion
+
+def _backtracking(maestros, grupos, m, solucion_anterior, suma_anterior):
+    if m == len(maestros): # Se le asigno grupo a todos los maestros
+        suma_actual = obtener_suma(grupos)
+        if suma_actual < suma_anterior:
+            return grupos[:]
+        return solucion_anterior[:]
+    
+    if obtener_suma(grupos) >= suma_anterior: 
+        # No se termino de asignar grupo a todos los maestros pero la suma ya es mayor al optimo actual
+        return solucion_anterior[:]
+    
+    optimo_actual = solucion_anterior
+    suma_opt = suma_anterior
+    
+    for grupo in grupos:
+        grupo.append(maestros[m])
+        optimo_actual = _backtracking(maestros, grupos, m + 1, optimo_actual, suma_opt)
+        grupo.pop()
+
+    return optimo_actual[:]
+```
+
 ## Programación lineal
 ### Versión óptima
 Esta versión busca resolver el problema original.
