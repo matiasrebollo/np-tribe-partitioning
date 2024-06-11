@@ -3,10 +3,10 @@ En el presente trabajo se llevará a cabo el desarrollo y análisis de algoritmo
 
 # Análisis del problema
 ## El problema está en NP
-Para demostrar que el problema de la Tribu del Agua se encuentra en NP, basta con implementar un certificador eficiente de soluciones del mismo que sea de complejidad polinomial en función al tamaño de la entrada. En otras palabras, debemos implementar un algoritmo que, dado un conjunto de $n$ maestros $M$ cada uno con su poder $x_i$, una cantidad de grupos $k$, un número $B$, y $l$ conjuntos $S_1, S_2,..., S_l$, defina si esos conjuntos son una solución al problema en cuestión.
+Para demostrar que el problema de la Tribu del Agua se encuentra en NP, basta con implementar un certificador eficiente de soluciones del mismo que sea de complejidad polinomial en función al tamaño de la entrada. En otras palabras, debemos implementar un algoritmo que, dado un conjunto de $n$ maestros $M$ cada uno con su poder $x_i$, una cantidad de grupos $k$, un número $B$, y $l$ conjuntos $S_1, S_2, \ldots, S_l$, defina si esos conjuntos son una solución al problema en cuestión.
 
 $S$ es solución si cumple con las siguientes condiciones:
-+ $S_1, S_2,..., S_n$ es partición de $M$
++ $S_1, S_2, \ldots, S_n$ es partición de $M$
 + $l = k$
 +
 $$
@@ -104,18 +104,18 @@ Finalmente, SS $\le_{p}$ TA y como TA es NP, también es NP-Completo.
 ## Backtracking
 
 ## Programación lineal
-### Versión Óptima
+### Versión óptima
 #### Constantes
 
-+ $n$: Número de maestros agua.
-+ $k$: Número de grupos.
-+ $c_i$: Habilidad del maestro $i$ (valores positivos).
++ $n$: número de maestros agua.
++ $k$: número de grupos.
++ $c_i$: poder del maestro $i$ (valores positivos).
 
 #### Variables
 
-+ $X_{ij}$: Variable booleana, "maestro $i$ en el grupo $j$"
-+ $Y_{ijw}$: Variable booleana, $X_{iw} \land X_{jw}$
-+ $S_i$: Cuadrado de la suma de poder de los maestros del grupo $i$.
++ $X_{ij}$: variable booleana, "maestro $i$ en el grupo $j$"
++ $Y_{ijw}$: variable booleana, $X_{iw} \land X_{jw}$
++ $S_i$: cuadrado de la suma de poder de los maestros del grupo $i$.
 
 #### Restricciones
 
@@ -143,25 +143,16 @@ $$
 \min \sum_{i=1}^k S_i
 $$
 
-### Versión Aproximada
+### Versión aproximada
 
 #### Definición de variables
-
-+ $n$: Número de maestros agua.
-+ $k$: Número de grupos.
-+ $x_i$: Habilidad del maestro $i$ (valores positivos).
-+ $p_{ij}$: Variable binaria que indica si el maestro $i$ está en el grupo $j$ ($p_{ij} = 1$) o no ($p_{ij} = 0$).
-+ $S_j$: Suma de habilidades del grupo $j$.
-+ $M$: Máxima suma de habilidades entre todos los grupos.
-+ $m$: Mínima suma de habilidades entre todos los grupos.
-
-#### Función objetivo
-
-El objetivo es minimizar la diferencia entre la suma de habilidades del grupo con la mayor suma y el grupo con la menor suma:
-
-$$
-Minimizar: Z = M - m
-$$
++ $n$: número de maestros agua.
++ $k$: número de grupos.
++ $x_i$: poder del maestro $i$ (valores positivos).
++ $p_{ij}$: variable binaria que indica si el maestro $i$ está en el grupo $j$ ($p_{ij} = 1$) o no ($p_{ij} = 0$).
++ $S_j$: suma de poder del grupo $j$.
++ $M$: máxima suma de poder entre todos los grupos.
++ $m$: mínima suma de poder entre todos los grupos.
 
 #### Restricciones
 + Cada maestro debe estar asignado exactamente a un grupo:
@@ -170,13 +161,13 @@ $$
 \sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
 $$
 
-+ La suma de habilidades del grupo $j$ debe ser igual a la suma de las habilidades de los maestros asignados a ese grupo:
++ La suma de poder del grupo $j$ debe ser igual a la suma de las poder de los maestros asignados a ese grupo:
 
 $$
 S_j = \sum_{i=1}^{n} p_{ij} \cdot x_i \quad \forall j \in \{1, 2, \ldots, k\}
 $$
 
-+ Máxima y mínima suma de habilidades:
++ Máxima y mínima suma de poder:
 
 $$
 S_j \leq M \quad \forall j \in \{1, 2, \ldots, k\}
@@ -184,6 +175,12 @@ $$
 
 $$
 S_j \geq m \quad \forall j \in \{1, 2, \ldots, k\}
+$$
+
+#### Función objetivo
+A diferencia del caso anterior, el objetivo ahora es minimizar la diferencia entre la suma de poder del grupo con la mayor y el grupo con la menor, esto es:
+$$
+\min: M - m
 $$
 
 #### Análisis de complejidad

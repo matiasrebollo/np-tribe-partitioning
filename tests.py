@@ -1,6 +1,9 @@
 import unittest
-from main import aprox_pakku, backtracking, obtener_suma, parse, aprox_programacion_lineal
-from pl import programacion_lineal
+from bt import backtracking
+from pakku import aprox_pakku
+from pl import aprox_programacion_lineal, programacion_lineal
+from utils import obtener_suma, parse
+
 
 class Test(unittest.TestCase):
     def test_drive_5_2(self):
@@ -135,18 +138,18 @@ class Test(unittest.TestCase):
         self.assertEqual(obtener_suma(grupos_aprox_pl), 4311889)
         # self.assertEqual(obtener_suma(grupos_aprox_pakku), 4311889)  # no da la solucion optima
         
-    def test_drive_15_6(self):      # FAIL      
+    def test_drive_15_6(self):      # 1 hora 23 min      
         k, maestros = parse("pruebas_drive/15_6.txt")
         grupos_bt = backtracking(maestros, k)
         grupos_pl = programacion_lineal(maestros, k)
-        grupos_aprox_pl = aprox_programacion_lineal(maestros, k)
+        # grupos_aprox_pl = aprox_programacion_lineal(maestros, k)
         # grupos_aprox_pakku = aprox_pakku(maestros, k)
         self.assertEqual(obtener_suma(grupos_bt), 6377225)
         self.assertEqual(obtener_suma(grupos_pl), 6377225)
-        self.assertEqual(obtener_suma(grupos_aprox_pl), 6377225)
+        # self.assertEqual(obtener_suma(grupos_aprox_pl), 6377225) # no da la solucion optima
         # self.assertEqual(obtener_suma(grupos_aprox_pakku), 6377225)  # no da la solucion optima
         
-    def test_drive_17_5(self):      
+    def test_drive_17_5(self):      #       
         k, maestros = parse("pruebas_drive/17_5.txt")
         grupos_bt = backtracking(maestros, k)
         grupos_pl = programacion_lineal(maestros, k)
