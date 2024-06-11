@@ -109,10 +109,13 @@ $$
 Finalmente, SS $\le_{p}$ TA y como TA es NP, también es NP-Completo.
  
 # Algoritmos y complejidad
+Se propusieron varios algoritmos siguiendo distintas tecnicas de programación, siendo algunos de ellos óptimos, y otros una versión aproximada.
+
 ## Backtracking
 
 ## Programación lineal
 ### Versión óptima
+Esta versión busca resolver el problema original.
 #### Constantes
 + $n$: número de maestros agua.
 + $k$: número de grupos.
@@ -138,16 +141,19 @@ $$
 $$
 
 + Desarrollo del cuadrado de la suma de poderes de un grupo:
+
 $$
 S_w = \left({\sum\_{i = 1}^{n}c_i\cdot X_{iw}}\right)^2 = \sum\_{i = 1}^{n}c_i^2\cdot X_{iw} + 2\left({\sum_{i=1}^{n}\sum\_{j = i+1}^{n}c_ic_j\cdot Y_{ijw}}\right) \forall w
 $$
 
 #### Función objetivo
+
 $$
 \min \sum_{i=1}^k S_i
 $$
 
 ### Versión aproximada
+A diferencia del caos anterior,esta versión modela una versión aproximada del problema, en cual se busca minimizar la diferencia del grupo con la mayor suma, y el grupo con la menor suma.
 #### Definición de variables
 + $n$: número de maestros agua.
 + $k$: número de grupos.
@@ -162,20 +168,25 @@ $$
 $$
 \sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
 $$
+
 + La suma de poder del grupo $j$ debe ser igual a la suma de las poder de los maestros asignados a ese grupo:
+ 
 $$
 S_j = \sum_{i=1}^{n} p_{ij} \cdot x_i \quad \forall j \in \{1, 2, \ldots, k\}
 $$
+
 + Máxima y mínima suma de poder:
+
 $$
 S_j \leq M \quad \forall j \in \{1, 2, \ldots, k\}
 $$
+
 $$
 S_j \geq m \quad \forall j \in \{1, 2, \ldots, k\}
 $$
 
 #### Función objetivo
-A diferencia del caso anterior, el objetivo ahora es minimizar la diferencia entre la suma de poder del grupo con la mayor y el grupo con la menor, esto es:
+
 $$
 \min: M - m
 $$
