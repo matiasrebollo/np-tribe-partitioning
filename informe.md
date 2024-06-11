@@ -2,16 +2,27 @@
 En el presente trabajo se llevará a cabo el desarrollo y análisis de algoritmos de Backtracking y Programación Lineal para resolver un problema NP-Completo, así como el análisis de posibles aproximaciones. También se realizará una demostración de la clase de complejidad del mismo.
 
 # Análisis del problema
-## El problema está en NP
+
+Se define el problema de la Tribu del Agua al siguiente problema de decisión:
+
+Dada una secuencia de $n$ fuerzas/habilidades de maestros de agua $x_1,x_2 \cdots x_n$, y dos números $k$ y $B$, definir si existe una partición en $k$ subgrupos $S_1, S_2, \cdots, S_k$ tal que:
+
+$$
+\sum_{i=1}^{k} \left({\sum_{x_j\in S_i}x_j}\right)^2 \le B
+$$
+
+## El problema es NP-Completo
+El problema de la Tribu del Agua (a partir de ahora TA) es NP-Completo si cumple con las siguientes condiciones:
+1. [El problema está en NP](#el-problema-está-en-np).
+2. [Cualquier problema NP-Completo puede reducirse polinomialmente a este problema](#cualquier-problema-NP-Completo-puede-reducirse-polinomialmente-a-este-problema).
+
+### El problema está en NP
 Para demostrar que el problema de la Tribu del Agua se encuentra en NP, basta con implementar un certificador eficiente de soluciones del mismo que sea de complejidad polinomial en función al tamaño de la entrada. En otras palabras, debemos implementar un algoritmo que, dado un conjunto de $n$ maestros $M$ cada uno con su poder $x_i$, una cantidad de grupos $k$, un número $B$, y $l$ conjuntos $S_1, S_2, \ldots, S_l$, defina si esos conjuntos son una solución al problema en cuestión.
 
 $S$ es solución si cumple con las siguientes condiciones:
 + $S_1, S_2, \ldots, S_n$ es partición de $M$
 + $l = k$
-+
-$$
- \sum^{k}_{i=1} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 \le B
-$$
++ $\sum_{1 \le i \le k}\left({\sum_{x_j\in S_i}x_j}\right)^2 \le B$
 
 A continuación se presenta la implementación de dicho algoritmo en Python:
 
@@ -49,10 +60,7 @@ def cuadrado_suma_grupo(S_i):
 
 La complejidad temporal del verificador es $\mathcal{O}(n)$ + $\mathcal{O}(n)$ = $\mathcal{O}(n)$ en función de la entrada.
 
-## El problema es NP-Completo
-El problema de la Tribu del Agua (a partir de ahora TA) es NP-Completo si cumple con las siguientes condiciones:
-1. [El problema está en NP (demostrado en la sección anterior)](#el-problema-está-en-np).
-2. Cualquier problema NP-Completo puede reducirse polinomialmente a este problema.
+### Cualquier problema NP-Completo puede reducirse polinomialmente a este problema
 
 Para comprobar la segunda condición se plantea reducir el problema de Subset Sum, el cual se sabe que es NP-Completo, al problema en cuestión.
 
@@ -76,7 +84,7 @@ Para empezar vale la pena observar que, como se busca que los grupos queden lo m
 Para esta reducción, $m = 2(sum(S) + T)$ y $k = 2$, por lo que cada grupo deberá tener $sum(S) + T$ de poder total en el caso ideal. Desarrollando el coeficiente para este escenario:
 
 $$
-\sum^{k}_{i=1} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 + sum(S_2)^2 = (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
+\sum_{i=1}^{k} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 + sum(S_2)^2 = (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
 $$
 
 Se puede ver que el coeficiente para el mejor caso coincide con el $B$ que se le dió al problema, por lo que si existe una solución con un coeficiente de a lo sumo $B$, existe una forma de repartir los maestros en dos grupos tal que cada grupo suma $sum(S) + T$.
@@ -87,13 +95,17 @@ Por lo tanto, si se encuentra solución a TA con $B = 2(sum(S) + T)^2$, debe exi
 
 #### Si hay solución a SS
 Suponiendo que existe una solución $S'$ tal que $sum(S') = T$, entonces $sum(S' \cup z1) = sum(S-S'\cup z2)$ por lo que es posible dividir en dos grupos de mismo poder $S_1 = \set{S', z_1}$ y $S_2 = \set{S-S', z_2}$, que es la mejor solución a TA. Desarrollando el coeficiente:
+
 $$
-\sum^{k}_{i=1} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 + sum(S_2)^2 = (sum(S) + T)^2 + (sum(S)-T + 2T)^2 = (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
+\sum_{i=1}^{k} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 +   sum(S_2)^2 = (sum(S) + T)^2 + (sum(S)-T + 2T)^2 = (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
 $$
+
 Por lo tanto, existe una división de maestros tal que:
+
 $$
-\sum^{k}_{i=1} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 \le 2(T + sum(S))^2
+\sum_{i=1}^{k} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 \le 2(T + sum(S))^2
 $$
+
 Finalmente, SS $\le_{p}$ TA y como TA es NP, también es NP-Completo.
  
 # Algoritmos y complejidad
