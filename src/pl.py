@@ -1,19 +1,18 @@
-import sys
 import pulp
-from utils import PODER, imprimir_solucion, parse
+from utils import *
 
 
 def programacion_lineal(maestros: list[tuple[str|int]], k: int):
     n = len(maestros)
-    c = [i[PODER] for i in maestros]
+    c = [m[PODER] for m in maestros]
 
     problem = pulp.LpProblem("grupos_balanceados", pulp.LpMinimize)
-    # Por cada maestro i y por cada grupo j, defino una variable booleana: "i se encuentra en j"
+    # Por cada maestro i y por cada grupo j, se define una variable booleana: "i se encuentra en j"
     x = pulp.LpVariable.dicts("x", [(i, j) for i in range(n) for j in range(k)], cat = "Binary")
     y = pulp.LpVariable.dicts("y", [(i, j, w) for i in range(n) for j in range(i+1, n) for w in range(k)], cat = "Binary")
     S = pulp.LpVariable.dicts("S", range(k), cat="Continuous")
 
-    for i in range(n): # Cada maestro debe pertenecer exactamente a un grupo
+    for i in range(n): # Cada maestro debe pertenecer a exactamente un grupo
         problem += pulp.lpSum(x[(i, j)] for j in range(k)) == 1
 
     for (i, j, w) in y.keys(): # Cada Y_(i,j,w) es X_(i,w) AND X_(j,w)
@@ -40,18 +39,18 @@ def programacion_lineal(maestros: list[tuple[str|int]], k: int):
 def aprox_programacion_lineal(maestros, k):
     n = len(maestros)
 
-    # Inicializamos el problema y sus variables
+    # Se inicializa el problema y sus variables
     problem = pulp.LpProblem("grupos_balanceados", pulp.LpMinimize)
     p = pulp.LpVariable.dicts("x", [(i, j) for i in range(n) for j in range(k)], cat = "Binary")
     S = pulp.LpVariable.dicts("S", range(k), cat = "Continuous")
     M = pulp.LpVariable("M", cat = "Continuous")
     m = pulp.LpVariable("m", cat = "Continuous")
 
-    # Planteamos restricciones
+    # Se plantean restricciones
     for i in range(n):  # Cada maestro debe pertenecer exactamente a un grupo
         problem += pulp.lpSum(p[(i, j)] for j in range(k)) == 1
     for j in range(k): 
-        problem += S[j] == pulp.lpSum(p[(i, j)] * maestros[i][PODER] for i in range(n))     # Calculamos las sumas de cada grupo
+        problem += S[j] == pulp.lpSum(p[(i, j)] * maestros[i][PODER] for i in range(n))     # Se calculan las sumas de cada grupo
         problem += S[j] <= M
         problem += S[j] >= m
     problem += M - m
@@ -67,7 +66,15 @@ def aprox_programacion_lineal(maestros, k):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        sys.exit("USAGE: python main.py <path-a-dataset>")
+        sys.exit("USO: python src/pl.py <path-a-dataset>")
     
     k, maestros = parse(sys.argv[1])
-    imprimir_solucion(programacion_lineal(maestros, k))
+
+    print("\nSOLUCION POR PROGRAMACION LINEAL")
+    grupos = programacion_lineal(maestros, k)
+    imprimir_solucion(grupos)
+    
+    print("\nSOLUCION POR PROGRAMACION LINEAL (APROXIMACION)")
+    grupos_aprox = aprox_programacion_lineal(maestros, k)
+    imprimir_solucion(grupos_aprox)
+    print("")

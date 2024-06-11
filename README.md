@@ -49,14 +49,22 @@ Agregar cualquier conclusión que parezca relevante.
 
 ## Ejecución
 
-Para ejecutar el programa, ingresar en una terminal:
-|   `python main.py <path-a-dataset>` |
-|:-------:|
-
-Por ejemplo: `python main.py pruebas_drive\5_2.txt`
-
-El programa imprimirá por pantalla los grupos y el coeficiente obtenido para cada uno de los algoritmos utilizados.
-
-Para ejecutar los tests, ingresar en una terminal:
-|`python tests.py`  |
-|:-------:|
+- Para ejecutar **todos** los distintos métodos implementados, ingresar en una terminal (desde el root del repositorio):
+    |   `python src/main.py <path-a-dataset>` |
+    |:-------:|
+    
+    Por ejemplo: `python src/main.py pruebas_drive/5_2.txt`
+    
+    El programa imprimirá por pantalla los grupos y el coeficiente obtenido para cada uno de los algoritmos utilizados, incluyendo los de aproximación.
+- Para ejecutar únicamente el algoritmo de backtracking, ingresar:
+    |   `python src/bt.py <path-a-dataset>` |
+    |:-------:|
+- Para ejecutar los algoritmos de programación lineal, ingresar:
+    |   `python src/pl.py <path-a-dataset>` |
+    |:-------:|
+- Para ejecutar únicamente el algoritmo de aproximación de Pakku, ingresar:
+    |   `python src/pakku.py <path-a-dataset>` |
+    |:-------:|
+- Para ejecutar los tests, ingresar en una terminal:
+    |`python tests.py`  |
+    |:-------:|

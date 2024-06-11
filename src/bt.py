@@ -1,6 +1,6 @@
 from copy import deepcopy
 from pakku import aprox_pakku
-from utils import obtener_suma
+from utils import *
 
 
 def backtracking(maestros, k):
@@ -24,3 +24,15 @@ def k_grupos_min_sum(maestros, grupos, m, solucion):
         grupo.append(maestros[m])
         k_grupos_min_sum(maestros, grupos, m + 1, solucion)
         grupo.pop()
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        sys.exit("USO: python src/bt.py <path-a-dataset>")
+    
+    k, maestros = parse(sys.argv[1])
+
+    print("\nSOLUCION POR BACKTRACKING")
+    grupos = backtracking(maestros, k)
+    imprimir_solucion(grupos)
+    print("")

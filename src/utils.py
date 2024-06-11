@@ -1,3 +1,4 @@
+import sys
 from csv import reader
 
 NOMBRE = 0

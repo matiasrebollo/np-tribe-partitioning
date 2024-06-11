@@ -1,13 +1,12 @@
-import sys
 from bt import backtracking
 from pakku import aprox_pakku
 from pl import aprox_programacion_lineal, programacion_lineal
-from utils import imprimir_solucion, parse
+from utils import *
 
 
 def main():
     if len(sys.argv) != 2:
-        sys.exit("USAGE: python main.py <path-a-dataset>")
+        sys.exit("USO: python src/main.py <path-a-dataset>")
     
     k, maestros = parse(sys.argv[1])
 

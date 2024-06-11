@@ -1,4 +1,4 @@
-from utils import PODER, cuadrado_suma_grupo
+from utils import *
 
 
 def aprox_pakku(maestros, k):
@@ -17,3 +17,14 @@ def aprox_pakku(maestros, k):
         grupo.append(maestro)
 
     return grupos 
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        sys.exit("USO: python src/pakku.py <path-a-dataset>")
+    
+    k, maestros = parse(sys.argv[1])
+
+    print("\nSOLUCION POR APROXIMACION DE PAKKU (GREEDY)")
+    grupos = aprox_pakku(maestros, k)
+    imprimir_solucion(grupos)
+    print("")
