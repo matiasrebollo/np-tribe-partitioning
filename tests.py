@@ -3,7 +3,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 import unittest
 from bt import backtracking
-from pakku import aprox_pakku
+from greedy import aprox_pakku
 from pl import aprox_programacion_lineal, programacion_lineal
 from utils import *
 

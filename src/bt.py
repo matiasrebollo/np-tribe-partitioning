@@ -1,5 +1,5 @@
 from copy import deepcopy
-from pakku import aprox_pakku
+from greedy import aprox_pakku
 from utils import *
 
 
