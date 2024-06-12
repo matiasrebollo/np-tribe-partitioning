@@ -4,13 +4,13 @@ from utils import *
 
 
 def backtracking(maestros, k):
-    solucion_greedy = aprox_pakku(maestros, k) # Solucion aproximada
+    solucion_greedy = aprox_pakku(maestros, k)  # Solucion aproximada
     suma_greedy = obtener_suma(solucion_greedy)
     solucion = backtracking_rec(maestros, [[] for _ in range(k)], 0, solucion_greedy, suma_greedy)
     return solucion
 
 def backtracking_rec(maestros, grupos, m, solucion_anterior, suma_anterior):
-    if m == len(maestros): # Se le asigno grupo a todos los maestros
+    if m == len(maestros):  # Se le asigno grupo a todos los maestros
         suma_actual = obtener_suma(grupos)
         if suma_actual < suma_anterior:
             return deepcopy(grupos)

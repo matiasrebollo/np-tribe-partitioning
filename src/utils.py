@@ -1,3 +1,4 @@
+import datetime
 import sys
 from csv import reader
 
@@ -34,3 +35,8 @@ def imprimir_solucion(grupos):
         contador += 1
 
     print("Coeficiente:", obtener_suma(grupos))
+
+def mostrar_hora_inicio():
+    now = datetime.datetime.now()
+    formatted_time = now.strftime("%Y-%m-%d %H:%M:%S")
+    print("Empezo a las", formatted_time)
