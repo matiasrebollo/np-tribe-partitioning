@@ -124,6 +124,7 @@ El algoritmo implementado es el siguiente:
 
 #### Código
 ```python
+# Código en bt.py
 def backtracking(maestros, k):
     solucion_greedy = aprox_pakku(maestros, k)  # Solucion aproximada
     suma_greedy = obtener_suma(solucion_greedy)
@@ -154,11 +155,11 @@ def backtracking_rec(maestros, grupos, m, solucion_anterior, suma_anterior):
 ```
 
 #### Análisis de complejidad
-- Aproximación inicial: $\mathcal{O}(n^2 + k)$ (detallado en [Aproximación de Pakku](#aproximación-de-pakku))
+- Aproximación inicial: $\mathcal{O}(n^2)$ (detallado en [Aproximación de Pakku](#aproximación-de-pakku))
 - La función recursiva explora todas las posibles formas de asignar los $n$ maestros en los $k$ grupos, y más allá de las podas que agilizan este proceso, existen $k^n$ posibles asignaciones: $\mathcal{O}(k^n)$
 - Por llamado a esta función se realizan operaciones lineales como _obtener_suma_ y _deepcopy_: $\mathcal{O}(n)$
 
-Por lo tanto, la complejidad total es $\mathcal{O}(n^2 + k) + \mathcal{O}(k^n \cdot n) ≈ \mathcal{O}(k^n \cdot n)$.
+Por lo tanto, la complejidad total es $\mathcal{O}(n^2) + \mathcal{O}(k^n \cdot n) ≈ \mathcal{O}(k^n \cdot n)$.
 
 ## Programación Lineal
 Se plantean dos modelos distintos y se utiliza la librería _pulp_ de Python para ejecutarlos. El código de ambos se encuentra en _pl.py_.
@@ -246,38 +247,36 @@ La complejidad de resolver un problema de PLE utilizando el algoritmo _branch-an
 
 ## Algoritmos Greedy
 ### Aproximación de Pakku
-
 Pakku propone el siguiente algoritmo Greedy:
-+ Genero los $k$ grupos vacios. $\mathcal{O}(k)$
-+ Ordeno los maestros de mayor a menor según su habilidad. $\mathcal{O}(n\log n)$
-+ Por cada maestro obtengo el grupo con menor cuadrado de la suma (en $\mathcal{O}(n)$ ) y lo agrego a este. $n\mathcal{O}(n) = \mathcal{O}(n^2)$
+1. Generar los $k$ grupos vacíos: $\mathcal{O}(k)$
+2. Ordenar los maestros de mayor a menor según su poder: $\mathcal{O}(n\log n)$
+3. Por cada maestro se obtiene el grupo con menor cuadrado de la suma (en $\mathcal{O}(n)$ ) y se lo agrego al mismo: $n\cdot\mathcal{O}(n) = \mathcal{O}(n^2)$
 
-Complejidad temporal: $\mathcal{O}(k) + \mathcal{O}(n\log n) + \mathcal{O}(n^2) ≈ \mathcal{O}(n^2 + k)$
+Complejidad temporal: $\mathcal{O}(k) + \mathcal{O}(n\log n) + \mathcal{O}(n^2) ≈ \mathcal{O}(n^2)$
 en función de los datos de entrada.
-
-Este no es un algoritmo óptimo, pues un contraejemplo es el siguiente:
 
 #### Código
 ```python
+# Código en greedy.py
 def aprox_pakku(maestros, k):
     """Algoritmo Greedy propuesto en el enunciado."""
-    # Formo los k grupos vacios
+    # Se forman los k grupos vacios
     grupos = []
     for _ in range(k):
         grupos.append([])
 
-    # Ordeno los maestros por poder de forma decreciente
+    # Se ordenan los maestros por poder de forma decreciente
     maestros.sort(reverse = True, key = lambda m: m[PODER])
 
     for maestro in maestros:
-        # Agrego el maestro al grupo de menor suma
+        # Se agrega el maestro al grupo de menor suma
         grupo = min(grupos, key=cuadrado_suma_grupo) # O(n)
         grupo.append(maestro)
 
-    return grupos 
+    return grupos
 ```
 
-### Aproximación propuesta
+### Aproximación Greedy propuesta
 Aprovechando la idea de que el algoritmo en su mejor caso logra repartir los maestros de forma completamente equitativa (tal que cada grupo tenga $\frac{1}{k} \sum x_i$ de poder acumulado), se propone el siguiente algoritmo:
 
 1. Se obtiene el numero $p = \frac{1}{k} \sum x_i$ en $\mathcal{O}(n)$.
@@ -286,10 +285,9 @@ Aprovechando la idea de que el algoritmo en su mejor caso logra repartir los mae
 
 Complejidad temporal total: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) ≈ \mathcal{O}(n\log n)$ en función de los datos de entrada.
 
-Este no se trata de un algoritmo óptimo, tal como observamos en el siguiente contraejemplo:
-
 #### Código
 ```python
+# Código en greedy.py
 def aprox_propia(maestros, k):
     """Algoritmo Greedy propuesto por nosotros"""
     grupos = []
