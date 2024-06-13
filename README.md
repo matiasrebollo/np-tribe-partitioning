@@ -49,7 +49,7 @@ Agregar cualquier conclusión que parezca relevante.
 
 ## Ejecución
 
-- Para ejecutar **todos** los distintos métodos implementados, ingresar en una terminal (desde el root del repositorio):
+- Para ejecutar **todos** los distintos métodos implementados para un determinado dataset, ingresar en una terminal (desde el root del repositorio):
     |   `python src/main.py <path-a-dataset>` |
     |:-------:|
     
@@ -65,6 +65,11 @@ Agregar cualquier conclusión que parezca relevante.
 - Para ejecutar únicamente el algoritmo de aproximación de Pakku, ingresar:
     |   `python src/pakku.py <path-a-dataset>` |
     |:-------:|
-- Para ejecutar los tests, ingresar en una terminal:
+- Para ejecutar **todos** los tests, ingresar en una terminal:
     |`python tests.py`  |
     |:-------:|
+- Para ejecutar un test en particular, ingresar en una terminal:
+    |`python tests.py Test.<nombre-del-test>`  |
+    |:-------:|
+    
+    Por ejemplo: `python tests.py Test.test_drive_5_2`
