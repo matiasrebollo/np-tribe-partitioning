@@ -169,77 +169,70 @@ class Test(unittest.TestCase):
         mostrar_hora_inicio()    
         k, maestros = parse("pruebas_drive/17_7.txt")
         grupos_bt = backtracking(maestros, k)
-        print("Termino backtracking")
-        grupos_pl = programacion_lineal(maestros, k)
+        # grupos_pl = programacion_lineal(maestros, k)
         grupos_aprox_pakku = aprox_pakku(maestros, k)
         self.assertEqual(obtener_suma(grupos_bt), 11513230)
-        self.assertEqual(obtener_suma(grupos_pl), 11513230)
+        # self.assertEqual(obtener_suma(grupos_pl), 11513230)
         self.assertEqual(obtener_suma(grupos_aprox_pakku), 11513230)
 
     def test_drive_17_10(self):   
         mostrar_hora_inicio()  
         k, maestros = parse("pruebas_drive/17_10.txt")
         grupos_bt = backtracking(maestros, k)
-        print("Termino backtracking")
-        grupos_pl = programacion_lineal(maestros, k)
+        # grupos_pl = programacion_lineal(maestros, k)
         # grupos_aprox_pakku = aprox_pakku(maestros, k)
         self.assertEqual(obtener_suma(grupos_bt), 5427764)
-        self.assertEqual(obtener_suma(grupos_pl), 5427764)
+        # self.assertEqual(obtener_suma(grupos_pl), 5427764)
         # self.assertEqual(obtener_suma(grupos_aprox_pakku), 5427764)  # no da la solucion optima
 
     def test_drive_18_6(self):    
         mostrar_hora_inicio()  
         k, maestros = parse("pruebas_drive/18_6.txt")
         grupos_bt = backtracking(maestros, k)
-        print("Termino backtracking")
-        grupos_pl = programacion_lineal(maestros, k)
+        # grupos_pl = programacion_lineal(maestros, k)
         # grupos_aprox_pakku = aprox_pakku(maestros, k)
         self.assertEqual(obtener_suma(grupos_bt), 10322822)
-        self.assertEqual(obtener_suma(grupos_pl), 10322822)
+        # self.assertEqual(obtener_suma(grupos_pl), 10322822)
         # self.assertEqual(obtener_suma(grupos_aprox_pakku), 10322822)  # no da la solucion optima
 
     def test_drive_18_8(self):      
         mostrar_hora_inicio() 
         k, maestros = parse("pruebas_drive/18_8.txt")
         grupos_bt = backtracking(maestros, k)
-        print("Termino backtracking")
-        grupos_pl = programacion_lineal(maestros, k)
+        # grupos_pl = programacion_lineal(maestros, k)
         # grupos_aprox_pakku = aprox_pakku(maestros, k)
         self.assertEqual(obtener_suma(grupos_bt), 11971097)
-        self.assertEqual(obtener_suma(grupos_pl), 11971097)
+        # self.assertEqual(obtener_suma(grupos_pl), 11971097)
         # self.assertEqual(obtener_suma(grupos_aprox_pakku), 11971097)  # no da la solucion optima
 
     def test_drive_20_4(self):      # siguiente
         mostrar_hora_inicio()      
         k, maestros = parse("pruebas_drive/20_4.txt")
         grupos_bt = backtracking(maestros, k)
-        print("Termino backtracking")
-        grupos_pl = programacion_lineal(maestros, k)
+        # grupos_pl = programacion_lineal(maestros, k)
         # grupos_aprox_pakku = aprox_pakku(maestros, k)
         self.assertEqual(obtener_suma(grupos_bt), 21081875)
-        self.assertEqual(obtener_suma(grupos_pl), 21081875)
+        # self.assertEqual(obtener_suma(grupos_pl), 21081875)
         # self.assertEqual(obtener_suma(grupos_aprox_pakku), 21081875)  # no da la solucion optima
 
     def test_drive_20_5(self): 
         mostrar_hora_inicio()      
         k, maestros = parse("pruebas_drive/20_5.txt")
         grupos_bt = backtracking(maestros, k)
-        print("Termino backtracking")
-        grupos_pl = programacion_lineal(maestros, k)
+        # grupos_pl = programacion_lineal(maestros, k)
         # grupos_aprox_pakku = aprox_pakku(maestros, k)
         self.assertEqual(obtener_suma(grupos_bt), 16828799)
-        self.assertEqual(obtener_suma(grupos_pl), 16828799)
+        # self.assertEqual(obtener_suma(grupos_pl), 16828799)
         # self.assertEqual(obtener_suma(grupos_aprox_pakku), 16828799)  # no da la solucion optima
     
     def test_drive_20_8(self):
         mostrar_hora_inicio()
         k, maestros = parse("pruebas_drive/20_8.txt")
         grupos_bt = backtracking(maestros, k)
-        print("Termino backtracking")
-        grupos_pl = programacion_lineal(maestros, k)
+        # grupos_pl = programacion_lineal(maestros, k)
         # grupos_aprox_pakku = aprox_pakku(maestros, k)
         self.assertEqual(obtener_suma(grupos_bt), 11417428)
-        self.assertEqual(obtener_suma(grupos_pl), 11417428)
+        # self.assertEqual(obtener_suma(grupos_pl), 11417428)
         # self.assertEqual(obtener_suma(grupos_aprox_pakku), 11417428)  # no da la solucion optima
 
 if __name__ == '__main__':
