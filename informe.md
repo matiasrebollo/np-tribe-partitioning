@@ -117,11 +117,11 @@ Se propusieron varios algoritmos siguiendo distintas técnicas de programación,
 Implementamos el siguiente algoritmo:
 
 0. Calculo una aproximación con un algoritmo greedy, que sirva como poda inicial.
-1. Elijo un grupo y asigno al maestro actual a tal grupo.
-2. Avanzo al siguiente maestro, con la mejor solución calculada hasta el momento (inicialmente la greedy).
-    - Si la asignación actual cubre todos los maestros, devuelvo entre esta y mejor solución hasta el paso anterior, aquella con menor coeficiente.
-    - Si no se terminaron de repartir los maestros pero el coeficiente actual ya supera el mejor coeficiente hasta el momento, retrocedo y vuelvo a al paso 1 con          otro grupo.
-3. Si llegué hasta acá, ya se evaluó todas las asignaciones posible para el maestro actual, devuelvo la mejor.
+1. Si mi asignación actual cubre a todo los maestros, devuelvo la mejor entre esta y la calculada anteriormente.
+2. Si no se terminaron de repartir los maestros pero el coeficiente actual ya supera el mejor coeficiente hasta el momento, retrocedo en la llamada recursiva y vuelvo al paso 3.
+3. Elijo un grupo y asigno al maestro actual a tal grupo.
+4. Llamo recursivamente a 1. con el maestro siguiente y la mejor solución calculada hasta el momento. 
+5. Si llegué hasta acá, ya se evaluaron todas las asignaciones posible para el maestro actual, devuelvo la mejor.
 
 ```python
 def backtracking(maestros, k):
@@ -280,7 +280,7 @@ def aprox_pakku(maestros, k):
 
 Aprovechando la idea de que el algoritmo en su mejor caso logra repartir los maestros de forma completamente equitativa, tal que cada grupo tenga $\frac{1}{k} \sum x_i$ poder acumulado, proponemos el siguiente algoritmo:
 
-+ Obtenemos el numero $p = \frac{1}{k} \sum_{1\le i \le n} x_i$ en $\mathcal{O}(n)$.
++ Obtenemos el numero $p = \frac{1}{k} \sum x_i$ en $\mathcal{O}(n)$.
 + Ordenamos los maestros de mayor a menor según su habilidad.  $\mathcal{O}(n\log n)$
 + Por cada maestro, lo meto en un mismo grupo hasta que se pase de $p$, pasando a un nuevo grupo en tal caso. $\mathcal{O}(n)$
 
