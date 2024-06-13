@@ -23,13 +23,13 @@ def aprox_propia(maestros, k):
     grupos = []
     nuevo_grupo = []
     poder_acumulado = 0
-    limite_poder = sum([i[PODER] for i in maestros]) / k
+    poder_ideal = sum(m[PODER] for m in maestros) / k
 
     # Ordeno los maestros por poder de forma decreciente
     maestros.sort(reverse=True, key = lambda m: m[PODER])
 
     for maestro in maestros:
-        if poder_acumulado > limite_poder:
+        if poder_acumulado >= poder_ideal:
             grupos.append(nuevo_grupo)
             nuevo_grupo = []
             poder_acumulado = 0

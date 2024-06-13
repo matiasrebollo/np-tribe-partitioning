@@ -113,7 +113,6 @@ Finalmente, SS $\le_{p}$ TA y como TA es NP también es NP-Completo.
 Se propusieron varios algoritmos siguiendo distintas técnicas de programación, siendo algunos de ellos óptimos y otros versiones aproximadas. Para los siguientes casos se tiene en cuenta la versión de optimización de TA.
 
 ## Backtracking
-
 Implementamos el siguiente algoritmo:
 
 0. Calculo una aproximación con un algoritmo greedy, que sirva como poda inicial.
@@ -123,6 +122,7 @@ Implementamos el siguiente algoritmo:
 4. Llamo recursivamente a 1. con el maestro siguiente y la mejor solución calculada hasta el momento. 
 5. Si llegué hasta acá, ya se evaluaron todas las asignaciones posible para el maestro actual, devuelvo la mejor.
 
+#### Código
 ```python
 def backtracking(maestros, k):
     solucion_greedy = aprox_pakku(maestros, k)  # Solucion aproximada
@@ -243,7 +243,6 @@ Sin embargo, en este caso específico, algunas de las variables son binarias y p
 La complejidad de resolver un problema de PLE utilizando el algoritmo _branch-and-bound_ es, en el peor de los casos, exponencial en función del número de variables binarias. Por lo tanto, es $\mathcal{O}(2^{nk})$ lo cual implica que a medida que el número de variables binarias aumenta (mayor cantidad de maestros y/o grupos), el tiempo de cómputo necesario para resolver el problema crece exponencialmente.
 
 ## Algoritmos Greedy
-
 ### Aproximación de Pakku
 
 Pakku propone el siguiente algoritmo greedy:
@@ -256,7 +255,7 @@ en función de los datos de entrada.
 
 Este no es un algoritmo óptimo, pues un contraejemplo es el siguiente:
 
-#### Codigo
+#### Código
 ```python
 def aprox_pakku(maestros, k):
     """Algoritmo greedy propuesto en el enunciado."""
@@ -276,32 +275,31 @@ def aprox_pakku(maestros, k):
     return grupos 
 ```
 
-### Algoritmo propuesto por el grupo
+### Aproximación propuesta
+Aprovechando la idea de que el algoritmo en su mejor caso logra repartir los maestros de forma completamente equitativa (tal que cada grupo tenga $\frac{1}{k} \sum x_i$ de poder acumulado), se propone el siguiente algoritmo:
 
-Aprovechando la idea de que el algoritmo en su mejor caso logra repartir los maestros de forma completamente equitativa, tal que cada grupo tenga $\frac{1}{k} \sum x_i$ poder acumulado, proponemos el siguiente algoritmo:
+1. Se obtiene el numero $p = \frac{1}{k} \sum x_i$ en $\mathcal{O}(n)$.
+2. Se ordenan los maestros de mayor a menor según su poder en $\mathcal{O}(n\log n)$.
+3. Se iteran los maestros y se van añadiendo en un mismo grupo hasta que el poder acumulado del mismo alcance o se pase de $p$, continuando con el siguiente grupo cuando eso ocurra. Esto se hace en $\mathcal{O}(n)$.
 
-+ Obtenemos el numero $p = \frac{1}{k} \sum x_i$ en $\mathcal{O}(n)$.
-+ Ordenamos los maestros de mayor a menor según su habilidad.  $\mathcal{O}(n\log n)$
-+ Por cada maestro, lo meto en un mismo grupo hasta que se pase de $p$, pasando a un nuevo grupo en tal caso. $\mathcal{O}(n)$
-
-Complejidad temporal: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) = \mathcal{O}(n\log n)$ en función de los datos de entrada.
+Complejidad temporal total: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) = \mathcal{O}(n\log n)$ en función de los datos de entrada.
 
 Este no se trata de un algoritmo óptimo, tal como observamos en el siguiente contraejemplo:
 
-#### Codigo
+#### Código
 ```python
 def aprox_propia(maestros, k):
     """Algoritmo greedy propuesto por nosotros"""
     grupos = []
     nuevo_grupo = []
     poder_acumulado = 0
-    limite_poder = sum([i[PODER] for i in maestros]) / k
+    poder_ideal = sum(m[PODER] for m in maestros) / k
 
     # Ordeno los maestros por poder de forma decreciente
     maestros.sort(reverse=True, key = lambda m: m[PODER])
 
     for maestro in maestros:
-        if poder_acumulado > limite_poder:
+        if poder_acumulado > poder_ideal:
             grupos.append(nuevo_grupo)
             nuevo_grupo = []
             poder_acumulado = 0
