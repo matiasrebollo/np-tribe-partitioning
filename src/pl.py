@@ -4,24 +4,24 @@ from utils import *
 
 def programacion_lineal(maestros: list[tuple[str|int]], k: int):
     n = len(maestros)
-    c = [m[PODER] for m in maestros]
+    x = [m[PODER] for m in maestros]
 
     problem = pulp.LpProblem("grupos_balanceados", pulp.LpMinimize)
     # Por cada maestro i y por cada grupo j, se define una variable booleana: "i se encuentra en j"
-    x = pulp.LpVariable.dicts("x", [(i, j) for i in range(n) for j in range(k)], cat = "Binary")
+    p = pulp.LpVariable.dicts("x", [(i, j) for i in range(n) for j in range(k)], cat = "Binary")
     y = pulp.LpVariable.dicts("y", [(i, j, w) for i in range(n) for j in range(i+1, n) for w in range(k)], cat = "Binary")
     S = pulp.LpVariable.dicts("S", range(k), cat="Continuous")
 
     for i in range(n): # Cada maestro debe pertenecer a exactamente un grupo
-        problem += pulp.lpSum(x[(i, j)] for j in range(k)) == 1
+        problem += pulp.lpSum(p[(i, j)] for j in range(k)) == 1
 
     for (i, j, w) in y.keys(): # Cada Y_(i,j,w) es X_(i,w) AND X_(j,w)
-        problem += 2*y[(i, j, w)] <= x[(i, w)] + x[(j, w)]
-        problem += x[(i, w)] + x[(j, w)] <= y[(i, j, w)] + 1
+        problem += 2*y[(i, j, w)] <= p[(i, w)] + p[(j, w)]
+        problem += p[(i, w)] + p[(j, w)] <= y[(i, j, w)] + 1
     
     for w in range(k):
-        coefs = [i**2 for i in c] + [2*c[i]*c[j] for i in range(n) for j in range(i+1, n)]
-        grupo_x = [x[(i, w)] for i in range(n)]
+        coefs = [i**2 for i in x] + [2*x[i]*x[j] for i in range(n) for j in range(i+1, n)]
+        grupo_x = [p[(i, w)] for i in range(n)]
         grupo_y = [y[(i, j, w)] for i in range(n) for j in range(i+1, n)]
         grupo = grupo_x + grupo_y
         problem += S[w] == pulp.LpAffineExpression([(grupo[i], coefs[i]) for i in range(len(grupo))])
@@ -31,7 +31,7 @@ def programacion_lineal(maestros: list[tuple[str|int]], k: int):
 
     grupos = [[] for _ in range(k)]
     for j in range(k):
-        grupo = [i for i in range(n) if pulp.value(x[(i, j)]) == 1]
+        grupo = [i for i in range(n) if pulp.value(p[(i, j)]) == 1]
         grupos[j] = [maestros[i] for i in grupo]
     
     return grupos

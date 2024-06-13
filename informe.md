@@ -164,35 +164,33 @@ Por lo tanto, la complejidad total es $\mathcal{O}(n^2 + k) + \mathcal{O}(k^n \c
 Se plantean dos modelos distintos y se utiliza la librería _pulp_ de Python para ejecutarlos. El código de ambos se encuentra en _pl.py_.
 
 ### Versión óptima
-En esta versión se busca resolver el problema original.
-#### Constantes
-+ $n$: número de maestros agua.
-+ $k$: número de grupos.
-+ $c_i$: poder del maestro $i$ (valores positivos).
+En esta versión se busca resolver el problema original y obtener la solución óptima del mismo.
 
 #### Definición de variables
-+ $X_{ij}$: variable booleana, "maestro $i$ en el grupo $j$"
-+ $Y_{ijw}$: variable booleana, $X_{iw} \land X_{jw}$
++ $n$: número de maestros agua.
++ $k$: número de grupos.
++ $x_i$: poder del maestro $i$ (valores positivos).
++ $p_{ij}$: variable binaria que indica si el maestro $i$ está en el grupo $j$ ($p_{ij} = 1$) o no ($p_{ij} = 0$).
++ $Y_{ijw}$: variable booleana, $p_{iw} \land p_{jw}$.
 + $S_i$: cuadrado de la suma de poder de los maestros del grupo $i$.
 
 #### Restricciones
 
-+ _Cada maestro i debe ser asignado a un único grupo:_
++ Cada maestro $i$ debe ser asignado a un único grupo:
 
 $$
-\sum_{j=1}^{k} X_{ij} = 1 \forall i
+\sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
 $$
 
-+ $Y_{ijw} = X_{iw} \land X_{jw}$:
++ $Y_{ijw} = p_{iw} \land p_{jw}$:
 
 $$
-2Y_{ijw} \le X_{iw} + X_{jw} \le Y_{ijw} + 1
+2Y_{ijw} \le p_{iw} + p_{jw} \le Y_{ijw} + 1
 $$
 
 + Desarrollo del cuadrado de la suma de poderes de un grupo:
-
 $$
-S_w = \left({\sum\_{i = 1}^{n}c_i\cdot X_{iw}}\right)^2 = \sum\_{i = 1}^{n}c_i^2\cdot X_{iw} + 2\left({\sum_{i=1}^{n}\sum\_{j = i+1}^{n}c_ic_j\cdot Y_{ijw}}\right) \forall w
+S_w = \left({\sum_{i = 1}^{n}x_i\cdot p_{iw}}\right)^2 = \sum_{i = 1}^{n}x_i^2\cdot p_{iw} + 2\left({\sum_{i=1}^{n}\sum_{j = i+1}^{n}x_ix_j\cdot Y_{ijw}}\right) \forall w
 $$
 
 #### Función objetivo
@@ -202,7 +200,7 @@ $$
 $$
 
 ### Versión aproximada
-A diferencia del caso anterior,esta versión modela una versión aproximada del problema, en cual se busca minimizar la diferencia del grupo con la mayor suma, y el grupo con la menor suma.
+A diferencia del caso anterior, esta versión modela una versión aproximada del problema, en cual se busca minimizar la diferencia del grupo con la mayor suma, y el grupo con la menor suma.
 
 #### Definición de variables
 + $n$: número de maestros agua.
@@ -214,8 +212,7 @@ A diferencia del caso anterior,esta versión modela una versión aproximada del 
 + $m$: mínima suma de poder entre todos los grupos.
 
 #### Restricciones
-+ Cada maestro debe estar asignado exactamente a un grupo:
-+ 
++ Cada maestro $i$ debe ser asignado a un único grupo:
 $$
 \sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
 $$
@@ -243,9 +240,7 @@ $$
 $$
 
 #### Análisis de complejidad
-Para resolver el problema se utiliza el método Simplex, que es un algoritmo utilizado en problemas de Programación Lineal (PL). Este método es eficiente para encontrar soluciones óptimas en problemas de PL cuando las restricciones y la función objetivo son lineales y las variables pueden tomar valores reales.
-
-Sin embargo, en este caso específico, algunas de las variables son binarias y pueden tomar únicamente los valores 0 o 1. Debido a la presencia de las mismas, el problema se clasifica como un problema de Programación Lineal Entera (PLE). 
+Para ambas versiones, como algunas de las variables en cuestión son binarias, el problema se clasifica como un problema de Programación Lineal Entera (PLE). 
 
 La complejidad de resolver un problema de PLE utilizando el algoritmo _branch-and-bound_ es, en el peor de los casos, exponencial en función del número de variables binarias. Por lo tanto, es $\mathcal{O}(2^{nk})$ lo cual implica que a medida que el número de variables binarias aumenta (mayor cantidad de maestros y/o grupos), el tiempo de cómputo necesario para resolver el problema crece exponencialmente.
 
