@@ -2,7 +2,7 @@ from utils import *
 
 
 def aprox_pakku(maestros, k):
-    """Algoritmo greedy propuesto en el enunciado."""
+    """Algoritmo Greedy propuesto en el enunciado."""
     # Formo los k grupos vacios
     grupos = []
     for _ in range(k):
@@ -19,7 +19,7 @@ def aprox_pakku(maestros, k):
     return grupos 
 
 def aprox_propia(maestros, k):
-    """Algoritmo greedy propuesto por nosotros"""
+    """Algoritmo Greedy propuesto por nosotros"""
     grupos = []
     nuevo_grupo = []
     poder_acumulado = 0

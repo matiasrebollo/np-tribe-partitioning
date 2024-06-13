@@ -57,7 +57,7 @@ def cuadrado_suma_grupo(S_i):
   return suma ** 2
 ```
 
-La complejidad temporal del verificador es $\mathcal{O}(n)$ + $\mathcal{O}(n)$ = $\mathcal{O}(n)$ en función de la entrada. Por lo tanto, TA $\in$ NP.
+La complejidad temporal del verificador es $\mathcal{O}(n)$ + $\mathcal{O}(n)$ ≈ $\mathcal{O}(n)$ en función de la entrada. Por lo tanto, TA $\in$ NP.
 
 ### Cualquier problema NP-Completo puede reducirse polinomialmente a este problema
 
@@ -110,17 +110,17 @@ $$
 Finalmente, SS $\le_{p}$ TA y como TA es NP también es NP-Completo.
  
 # Algoritmos y complejidad
-Se propusieron varios algoritmos siguiendo distintas técnicas de programación, siendo algunos de ellos óptimos y otros versiones aproximadas. Para los siguientes casos se tiene en cuenta la versión de optimización de TA.
+Se proponen varios algoritmos siguiendo distintas técnicas de diseño, siendo algunos de ellos óptimos y otros aproximaciones. Para todos los siguientes casos se tiene en cuenta la versión de optimización de TA.
 
 ## Backtracking
-Implementamos el siguiente algoritmo:
+El algoritmo implementado es el siguiente:
 
-0. Calculo una aproximación con un algoritmo greedy, que sirva como poda inicial.
-1. Si mi asignación actual cubre a todo los maestros, devuelvo la mejor entre esta y la calculada anteriormente.
-2. Si no se terminaron de repartir los maestros pero el coeficiente actual ya supera el mejor coeficiente hasta el momento, retrocedo en la llamada recursiva y vuelvo al paso 3.
-3. Elijo un grupo y asigno al maestro actual a tal grupo.
-4. Llamo recursivamente a 1. con el maestro siguiente y la mejor solución calculada hasta el momento. 
-5. Si llegué hasta acá, ya se evaluaron todas las asignaciones posible para el maestro actual, devuelvo la mejor.
+0. Se calcula una aproximación con un algoritmo Greedy, para que sirva como poda inicial.
+1. Si la asignación actual cubre a todos los maestros, se devuelve la mejor (la de menor coeficiente) entre esta y la calculada anteriormente.
+2. Si todavía no se terminaron de repartir los maestros pero el coeficiente parcial actual ya supera al mejor coeficiente encontrado hasta el momento, se retrocede en la llamada recursiva y se vuelve al paso 3.
+3. Se elige un grupo y se asigna al maestro actual al mismo.
+4. Se llama recursivamente al paso 1 con el maestro siguiente y la mejor solución calculada hasta el momento. 
+5. Cuando sale del _for_ es porque ya se evaluaron todas las asignaciones posibles para el maestro actual, y se devuelve la óptima.
 
 #### Código
 ```python
@@ -152,6 +152,13 @@ def backtracking_rec(maestros, grupos, m, solucion_anterior, suma_anterior):
 
     return optimo_actual
 ```
+
+#### Análisis de complejidad
+- Aproximación inicial: $\mathcal{O}(n^2 + k)$ (detallado en [Aproximación de Pakku](#aproximación-de-pakku))
+- La función recursiva explora todas las posibles formas de asignar los $n$ maestros en los $k$ grupos, y más allá de las podas que agilizan este proceso, existen $k^n$ posibles asignaciones: $\mathcal{O}(k^n)$
+- Por llamado a esta función se realizan operaciones lineales como _obtener_suma_ y _deepcopy_: $\mathcal{O}(n)$
+
+Por lo tanto, la complejidad total es $\mathcal{O}(n^2 + k) + \mathcal{O}(k^n \cdot n) ≈ \mathcal{O}(k^n \cdot n)$.
 
 ## Programación Lineal
 Se plantean dos modelos distintos y se utiliza la librería _pulp_ de Python para ejecutarlos. El código de ambos se encuentra en _pl.py_.
@@ -245,12 +252,12 @@ La complejidad de resolver un problema de PLE utilizando el algoritmo _branch-an
 ## Algoritmos Greedy
 ### Aproximación de Pakku
 
-Pakku propone el siguiente algoritmo greedy:
+Pakku propone el siguiente algoritmo Greedy:
 + Genero los $k$ grupos vacios. $\mathcal{O}(k)$
 + Ordeno los maestros de mayor a menor según su habilidad. $\mathcal{O}(n\log n)$
 + Por cada maestro obtengo el grupo con menor cuadrado de la suma (en $\mathcal{O}(n)$ ) y lo agrego a este. $n\mathcal{O}(n) = \mathcal{O}(n^2)$
 
-Complejidad temporal: $\mathcal{O}(k) + \mathcal{O}(n\log n) + \mathcal{O}(n^2) = \mathcal{O}(n^2 + k)$
+Complejidad temporal: $\mathcal{O}(k) + \mathcal{O}(n\log n) + \mathcal{O}(n^2) ≈ \mathcal{O}(n^2 + k)$
 en función de los datos de entrada.
 
 Este no es un algoritmo óptimo, pues un contraejemplo es el siguiente:
@@ -258,7 +265,7 @@ Este no es un algoritmo óptimo, pues un contraejemplo es el siguiente:
 #### Código
 ```python
 def aprox_pakku(maestros, k):
-    """Algoritmo greedy propuesto en el enunciado."""
+    """Algoritmo Greedy propuesto en el enunciado."""
     # Formo los k grupos vacios
     grupos = []
     for _ in range(k):
@@ -282,14 +289,14 @@ Aprovechando la idea de que el algoritmo en su mejor caso logra repartir los mae
 2. Se ordenan los maestros de mayor a menor según su poder en $\mathcal{O}(n\log n)$.
 3. Se iteran los maestros y se van añadiendo en un mismo grupo hasta que el poder acumulado del mismo alcance o se pase de $p$, continuando con el siguiente grupo cuando eso ocurra. Esto se hace en $\mathcal{O}(n)$.
 
-Complejidad temporal total: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) = \mathcal{O}(n\log n)$ en función de los datos de entrada.
+Complejidad temporal total: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) ≈ \mathcal{O}(n\log n)$ en función de los datos de entrada.
 
 Este no se trata de un algoritmo óptimo, tal como observamos en el siguiente contraejemplo:
 
 #### Código
 ```python
 def aprox_propia(maestros, k):
-    """Algoritmo greedy propuesto por nosotros"""
+    """Algoritmo Greedy propuesto por nosotros"""
     grupos = []
     nuevo_grupo = []
     poder_acumulado = 0
@@ -311,9 +318,6 @@ def aprox_propia(maestros, k):
 
     return grupos
 ```
-
-# Casos de prueba
-
 
 # Mediciones
 
