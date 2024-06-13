@@ -208,6 +208,7 @@ A diferencia del caso anterior,esta versión modela una versión aproximada del 
 
 #### Restricciones
 + Cada maestro debe estar asignado exactamente a un grupo:
++ 
 $$
 \sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
 $$
@@ -241,8 +242,77 @@ Sin embargo, en este caso específico, algunas de las variables son binarias y p
 
 La complejidad de resolver un problema de PLE utilizando el algoritmo _branch-and-bound_ es, en el peor de los casos, exponencial en función del número de variables binarias. Por lo tanto, es $\mathcal{O}(2^{nk})$ lo cual implica que a medida que el número de variables binarias aumenta (mayor cantidad de maestros y/o grupos), el tiempo de cómputo necesario para resolver el problema crece exponencialmente.
 
-## Aproximación de Pakku
+## Algoritmos Greedy
 
+### Aproximación de Pakku
+
+Pakku propone el siguiente algoritmo greedy:
++ Genero los $k$ grupos vacios. $\mathcal{O}(k)$
++ Ordeno los maestros de mayor a menor según su habilidad. $\mathcal{O}(n\log n)$
++ Por cada maestro obtengo el grupo con menor cuadrado de la suma (en $\mathcal{O}(n)$ ) y lo agrego a este. $n\mathcal{O}(n) = \mathcal{O}(n^2)$
+
+Complejidad temporal: $\mathcal{O}(k) + \mathcal{O}(n\log n) + \mathcal{O}(n^2) = \mathcal{O}(n^2 + k)$
+en función de los datos de entrada.
+
+Este no es un algoritmo óptimo, pues un contraejemplo es el siguiente:
+
+#### Codigo
+```python
+def aprox_pakku(maestros, k):
+    """Algoritmo greedy propuesto en el enunciado."""
+    # Formo los k grupos vacios
+    grupos = []
+    for _ in range(k):
+        grupos.append([])
+
+    # Ordeno los maestros por poder de forma decreciente
+    maestros.sort(reverse = True, key = lambda m: m[PODER])
+
+    for maestro in maestros:
+        # Agrego el maestro al grupo de menor suma
+        grupo = min(grupos, key=cuadrado_suma_grupo) # O(n)
+        grupo.append(maestro)
+
+    return grupos 
+```
+
+### Algoritmo propuesto por el grupo
+
+Aprovechando la idea de que el algoritmo en su mejor caso logra repartir los maestros de forma completamente equitativa, tal que cada grupo tenga $\frac{1}{k} \sum x_i$ poder acumulado, proponemos el siguiente algoritmo:
+
++ Obtenemos el numero $p = \frac{1}{k} \sum_{1\le i \le n} x_i$ en $\mathcal{O}(n)$.
++ Ordenamos los maestros de mayor a menor según su habilidad.  $\mathcal{O}(n\log n)$
++ Por cada maestro, lo meto en un mismo grupo hasta que se pase de $p$, pasando a un nuevo grupo en tal caso. $\mathcal{O}(n)$
+
+Complejidad temporal: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) = \mathcal{O}(n\log n)$ en función de los datos de entrada.
+
+Este no se trata de un algoritmo óptimo, tal como observamos en el siguiente contraejemplo:
+
+#### Codigo
+```python
+def aprox_propia(maestros, k):
+    """Algoritmo greedy propuesto por nosotros"""
+    grupos = []
+    nuevo_grupo = []
+    poder_acumulado = 0
+    limite_poder = sum([i[PODER] for i in maestros]) / k
+
+    # Ordeno los maestros por poder de forma decreciente
+    maestros.sort(reverse=True, key = lambda m: m[PODER])
+
+    for maestro in maestros:
+        if poder_acumulado > limite_poder:
+            grupos.append(nuevo_grupo)
+            nuevo_grupo = []
+            poder_acumulado = 0
+
+        nuevo_grupo.append(maestro)
+        poder_acumulado += maestro[PODER]
+    
+    grupos.append(nuevo_grupo)
+
+    return grupos
+```
 
 # Casos de prueba
 
