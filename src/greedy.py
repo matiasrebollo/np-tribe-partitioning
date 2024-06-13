@@ -53,6 +53,6 @@ if __name__ == "__main__":
     imprimir_solucion(grupos_pakku)
 
     print("\nSOLUCION POR APROXIMACION PROPUESTA")
-    grupos = aprox_propia(maestros, k)
-    imprimir_solucion(grupos)
+    grupos_aprox_propia = aprox_propia(maestros, k)
+    imprimir_solucion(grupos_aprox_propia)
     print("")
