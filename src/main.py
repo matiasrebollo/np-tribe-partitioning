@@ -1,5 +1,5 @@
 from bt import backtracking
-from greedy import aprox_pakku
+from greedy import aprox_pakku, aprox_propia
 from pl import aprox_programacion_lineal, programacion_lineal
 from utils import *
 
@@ -23,8 +23,12 @@ def main():
     imprimir_solucion(grupos_aprox_pl)
 
     grupos_aprox_pakku = aprox_pakku(maestros, k)
-    print("\nSOLUCION POR APROXIMACION DE PAKKU (GREEDY)")
+    print("\nSOLUCION POR APROXIMACION DE PAKKU")
     imprimir_solucion(grupos_aprox_pakku)
+
+    print("\nSOLUCION POR APROXIMACION PROPUESTA")
+    grupos = aprox_propia(maestros, k)
+    imprimir_solucion(grupos)
     print("")
 
 

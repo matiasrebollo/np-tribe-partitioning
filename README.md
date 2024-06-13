@@ -56,14 +56,14 @@ Agregar cualquier conclusión que parezca relevante.
     Por ejemplo: `python src/main.py pruebas_drive/5_2.txt`
     
     El programa imprimirá por pantalla los grupos y el coeficiente obtenido para cada uno de los algoritmos utilizados, incluyendo los de aproximación.
-- Para ejecutar únicamente el algoritmo de backtracking, ingresar:
+- Para ejecutar únicamente el algoritmo de Backtracking, ingresar:
     |   `python src/bt.py <path-a-dataset>` |
     |:-------:|
-- Para ejecutar los algoritmos de programación lineal, ingresar:
+- Para ejecutar los algoritmos de Programación Lineal, ingresar:
     |   `python src/pl.py <path-a-dataset>` |
     |:-------:|
-- Para ejecutar únicamente el algoritmo de aproximación de Pakku, ingresar:
-    |   `python src/pakku.py <path-a-dataset>` |
+- Para ejecutar los algoritmos Greedy de aproximación, ingresar:
+    |   `python src/greedy.py <path-a-dataset>` |
     |:-------:|
 - Para ejecutar **todos** los tests, ingresar en una terminal:
     |`python tests.py`  |
