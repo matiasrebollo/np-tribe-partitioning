@@ -11,7 +11,7 @@ MAX_PODER = 1000000 # Numero grande, para que funcione randrange
 
 
 def obtener_tiempo(metodo, n):
-    """genera un set de n maestros y calcula el tiempo promedio en obtener
+    """Genera un set de n maestros y calcula el tiempo promedio en obtener
     el coeficiente de la partición mediante el metodo recibido."""
     x = [randrange(1, MAX_PODER) for _ in range(n)]
     x = list(zip(range(n), x))

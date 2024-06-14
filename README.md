@@ -1,4 +1,5 @@
-# Ejecución
+# Trabajo Práctico 3: Problemas NP-Completos para la defensa de la Tribu del Agua
+## Ejecución
 
 - Para ejecutar **todos** los distintos métodos implementados para un determinado dataset, ingresar en una terminal (desde el root del repositorio):
     |   `python src/main.py <path-a-dataset>` |

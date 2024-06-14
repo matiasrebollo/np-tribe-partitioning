@@ -310,7 +310,7 @@ def aprox_propia(maestros, k):
 ```
 
 # Mediciones
-## Algoritmos de aproximación
+## Cotas de aproximación
 Primero es necesario definir:
 - $I$: una instancia cualquiera del problema.
 - $z(I)$: una solución óptima para dicha instancia.
@@ -324,30 +324,29 @@ $$
 Con el objetivo de determinar $r(A)$, se generaron múltiples datasets aleatorios con cantidad de maestros $n=1,\ldots,10$ y cantidad de grupos $k=1,\ldots,8$ para llamar tanto al algoritmo de Backtracking (para encontrar la solución óptima) como a los dos algoritmos de aproximación para todas las variaciones posibles de estos $n$ y $k$. 
 
 La idea aquí fue quedarse para cada algoritmo de aproximación con la cota máxima encontrada entre todas las ejecuciones. Las respuestas no determinísticas encontradas fueron (redondeando a 6 decimales):
-- Cota aproximación de Pakku: 1.003952
-- Cota aproximación propia: 1.536598
+- Cota aproximación de Pakku: **1.003952**
+- Cota aproximación propia: **1.536598**
 
 El código se encuentra en _mediciones.py_.
 
-## Graficos
-
-Con el fin de comparar los algoritmos greedy propuestos, se realizaron comparaciones de tiempo y optimidad para volúmenes grandes.
+## Gráficos
+Con el fin de comparar el desempeño los algoritmos Greedy propuestos, se realizaron mediciones de tiempo y optimalidad para grandes volúmenes de datos.
 
 ### Comparación de tiempo consumido
+Se generaron muestras aleatorias de 100 a 5000 maestros en pasos de 100, eligiéndose en cada caso un $k$ válido aleatorio. Por cada tamaño se tomó un tiempo promedio de ejecución por cada algoritmo de aproximación. 
 
-Se generaron muestras aleatorias de 100 a 5000 elementos en pasos de 100, elijiendose en cada caso un $k$ valido aleatorio. Por cada tamaño se tomó un tiempo promedio de ejecución por cada algoritmo de aproximación. 
+![Gráfico complejidad](img/grafico_complejidad.png "Gráfico complejidad")
 
-![Gráfico complejidad](src/grafico_complejidad.png "Gráfico complejidad")
-
-Se puede observar una diferencia notable entre los algoritmos, al punto que el tiempo consumido por nuestro algoritmo de complejidad $\mathcal{O}(n\log n)$ queda despreciable al lado del algoritmo de Pakku, de complejidad cuadrática en función de la entrada.
+Se puede observar una diferencia notable entre los algoritmos, al punto que el tiempo consumido por el nuestro de complejidad $\mathcal{O}(n\log n)$ queda despreciable al lado del algoritmo de Pakku, de complejidad cuadrática en función de la entrada.
 
 ### Comparación de precisión
+Se generaron muestras aleatorias de 100 a 1000 elementos en pasos de 50, eligiéndose en cada caso un $k$ válido aleatorio. Por cada muestra se obtuvo el coeficiente calculado mediante ambos algoritmos, y además, a partir de la cota de aproximación obtenida previamente, se graficaron los correspondientes valores estimados del coeficiente óptimo por cada algoritmo.
 
-Se generaron muestras aleatorias de 100 a 1000 elementos en pasos de 50, elijiendose en cada caso un $k$ valido aleatorio. Por cada muestra se obtuvo su coeficiente calculado mediante ambos algoritmos, y además, a partir de la cota de aproximación obtenida previamente, se graficaron los correspondientes valores estimados del coeficiente óptimo por cada algoritmo.
+![Gráfico coeficientes](img/grafico_coeficientes.png "Gráfico coeficientes")
 
-![Gráfico coeficientes](src/grafico_coeficientes.png "Gráfico coeficientes")
+Se observa que el algoritmo de Pakku logró repartir los maestros de una manera más óptima en todos los casos observados, pues devuelve un coeficiente menor. También se observa que este algoritmo es más preciso, pues no se nota mucha diferencia entre el coeficiente obtenido y el mínimo esperado, a diferencia de nuestro algoritmo donde ocurre lo contrario. 
 
-Se observa que el algoritmo de Pakku logró repartir de una manera más óptima en todos los casos observados, pues devuelve un coeficiente menor. También se observa que este algoritmo es más preciso, pues no se nota mucha diferencia entre el coeficiente obtenido y el mínimo esperado, a diferencia de nuestro algoritmo donde ocurre lo contrario. 
+El código utilizado para la generación de los gráficos se encuentra en  _plot_complejidad.py_ y _plot_coeficiente.py_, respectivamente.
 
 # Conclusiones
 - El problema de la Tribu del Agua efectivamente se encuentra en NP y es NP-Completo.
