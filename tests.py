@@ -205,7 +205,7 @@ class Test(unittest.TestCase):
         # self.assertEqual(obtener_suma(grupos_pl), 11971097)
         # self.assertEqual(obtener_suma(grupos_aprox_pakku), 11971097)  # no da la solucion optima
 
-    def test_drive_20_4(self):      # siguiente
+    def test_drive_20_4(self):      
         mostrar_hora_inicio()      
         k, maestros = parse("pruebas_drive/20_4.txt")
         grupos_bt = backtracking(maestros, k)
