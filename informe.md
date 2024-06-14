@@ -154,12 +154,8 @@ def backtracking_rec(maestros, grupos, m, solucion_anterior, suma_anterior):
     return optimo_actual
 ```
 
-#### Análisis de complejidad
-- Aproximación inicial: $\mathcal{O}(n^2)$ (detallado en [Aproximación de Pakku](#aproximación-de-pakku))
-- La función recursiva explora todas las posibles formas de asignar los $n$ maestros en los $k$ grupos, y más allá de las podas que agilizan este proceso, existen $k^n$ posibles asignaciones: $\mathcal{O}(k^n)$
-- Por llamado a esta función se realizan operaciones lineales como _obtener_suma_ y _deepcopy_: $\mathcal{O}(n)$
-
-Por lo tanto, la complejidad total es $\mathcal{O}(n^2) + \mathcal{O}(k^n \cdot n) ≈ \mathcal{O}(k^n \cdot n)$.
+#### Complejidad Temporal
+El algoritmo, si bien realiza podas de por medio, explora de forma explicita todo el espacio de soluciones buscando la óptima, por lo que la complejidad total resulta ser exponencial.
 
 ## Programación Lineal
 Se plantean dos modelos distintos y se utiliza la librería _pulp_ de Python para ejecutarlos. El código de ambos se encuentra en _pl.py_.
