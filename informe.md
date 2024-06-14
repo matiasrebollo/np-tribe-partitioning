@@ -1,3 +1,4 @@
+\newpage
 # Objetivo
 En el presente trabajo se llevará a cabo el desarrollo y análisis de algoritmos de Backtracking y Programación Lineal para resolver un problema NP-Completo, así como el análisis de posibles aproximaciones. También se realizará una demostración de la clase de complejidad del mismo.
 
@@ -12,6 +13,7 @@ $$
 
 ## El problema es NP-Completo
 El problema de la Tribu del Agua (a partir de ahora TA) es NP-Completo si cumple con las siguientes condiciones:
+
 1. [El problema se encuentra en NP](#el-problema-se-encuentra-en-np).
 2. [Cualquier problema NP-Completo puede reducirse polinomialmente a este problema](#cualquier-problema-np-completo-puede-reducirse-polinomialmente-a-este-problema).
 
@@ -19,6 +21,8 @@ El problema de la Tribu del Agua (a partir de ahora TA) es NP-Completo si cumple
 Para demostrar que el problema de la Tribu del Agua está en NP, basta con implementar un certificador eficiente de soluciones del mismo que sea de complejidad polinomial en función al tamaño de la entrada. En otras palabras, debemos implementar un algoritmo que, dado un conjunto de $n$ maestros $M$ cada uno con su poder $x_i$, una cantidad de grupos $k$, un número $B$, y $l$ conjuntos $S_1, S_2, \ldots, S_l$, defina si esos conjuntos son una solución al problema en cuestión.
 
 $S$ es solución si cumple con las siguientes condiciones:
+\newpage
+
 + $S_1, S_2, \ldots, S_n$ es partición de $M$
 + $l = k$
 + $\sum_{1 \le i \le k}\left({\sum_{x_j\in S_i}x_j}\right)^2 \le B$
@@ -79,13 +83,16 @@ Dado un conjunto $S$ de $n$ enteros positivos y un número $T$, decidir si exist
   + $k = 2$   
   + $B = 2(sum(S) + T)^2$ 
  
-#### Si hay solución a TA
+#### Si hay solución a TA:
 Para empezar vale la pena observar que, como se busca que los grupos queden lo más balanceados posible, la solución ideal es aquella en donde se logran formar $k$ grupos con sumas equivalentes de los elementos que los conforman. Entonces, siendo $m$ el poder total de los maestros, cada grupo tendrá $m/k$ poder acumulado.
 
 Para esta reducción, $m = 2(sum(S) + T)$ y $k = 2$, por lo que cada grupo deberá tener $sum(S) + T$ de poder total en el caso ideal. Desarrollando el coeficiente para este escenario:
 
 $$
-\sum_{i=1}^{k} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 + sum(S_2)^2 = (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
+\sum_{i=1}^{k} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 + sum(S_2)^2 =
+$$
+$$ 
+= (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
 $$
 
 Se puede apreciar que el coeficiente para el mejor caso coincide con el $B$ que se le dio al problema, por lo que si existe una solución con un coeficiente de a lo sumo $B$, existe una forma de repartir los maestros en dos grupos tal que cada grupo suma $sum(S) + T$.
@@ -94,11 +101,17 @@ Además, $z_1$ y $z_2$ no pueden estar en el mismo grupo porque juntos suman $su
 
 Por lo tanto, si se encuentra solución a TA con $B = 2(sum(S) + T)^2$, existe solución a SS. Caso contrario, implica que no hay subconjunto de $S$ que sume exactamente T y no existe solución a SS.
 
-#### Si hay solución a SS
+#### Si hay solución a SS:
 Suponiendo que existe una solución $S'$ tal que $sum(S') = T$, entonces $sum(S' \cup z1) = sum(S-S'\cup z2)$. Por consiguiente, es posible dividir $S$ en dos grupos de mismo poder $S_1 = \{S', z_1\}$ y $S_2 = \{S-S', z_2\}$, que es la mejor solución a TA. Desarrollando el coeficiente:
 
 $$
-\sum_{i=1}^{k} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 +  sum(S_2)^2 = (T + sum(S))^2 + (sum(S)-T + 2T)^2 = (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
+\sum_{i=1}^{k} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 + sum(S_2)^2 =
+$$
+$$
+= (T + sum(S))^2 + (sum(S)-T + 2T)^2 =
+$$
+$$
+= (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
 $$
 
 Por lo tanto, existe una partición de maestros tal que:
@@ -128,7 +141,8 @@ El algoritmo implementado es el siguiente:
 def backtracking(maestros, k):
     solucion_greedy = aprox_pakku(maestros, k)  # Solucion aproximada
     suma_greedy = obtener_suma(solucion_greedy)
-    solucion = backtracking_rec(maestros, [[] for _ in range(k)], 0, solucion_greedy, suma_greedy)
+    solucion = backtracking_rec(maestros, [[] for _ in range(k)], 0,
+                    solucion_greedy, suma_greedy)
     return solucion
 
 def backtracking_rec(maestros, grupos, m, solucion_anterior, suma_anterior):
@@ -139,7 +153,8 @@ def backtracking_rec(maestros, grupos, m, solucion_anterior, suma_anterior):
         return solucion_anterior
     
     if obtener_suma(grupos) >= suma_anterior: 
-        # No se termino de asignar grupo a todos los maestros pero la suma ya es mayor al optimo actual
+        # No se termino de asignar grupo a todos los maestros pero 
+        # la suma ya es mayor al optimo actual
         return solucion_anterior
     
     optimo_actual = solucion_anterior
@@ -147,15 +162,16 @@ def backtracking_rec(maestros, grupos, m, solucion_anterior, suma_anterior):
     
     for grupo in grupos:
         grupo.append(maestros[m])
-        optimo_actual = backtracking_rec(maestros, grupos, m + 1, optimo_actual, suma_opt)
+        optimo_actual = backtracking_rec(maestros, grupos, m + 1,
+                              optimo_actual, suma_opt)
         suma_opt = obtener_suma(optimo_actual)
         grupo.pop()
 
     return optimo_actual
 ```
 
-#### Complejidad Temporal
-El algoritmo, si bien realiza podas de por medio, explora de forma explicita todo el espacio de soluciones buscando la óptima, por lo que la complejidad total resulta ser exponencial.
+#### Análisis de complejidad:
+El algoritmo, si bien realiza podas de por medio, explora de forma explícita todo el espacio de soluciones buscando la óptima, por lo que la complejidad total resulta ser exponencial.
 
 ## Programación Lineal
 Se plantean dos modelos distintos y se utiliza la librería _pulp_ de Python para ejecutarlos. El código de ambos se encuentra en _pl.py_.
@@ -164,6 +180,7 @@ Se plantean dos modelos distintos y se utiliza la librería _pulp_ de Python par
 En esta versión se busca resolver el problema original y obtener la solución óptima del mismo.
 
 #### Definición de variables
+
 + $n$: número de maestros agua.
 + $k$: número de grupos.
 + $x_i$: poder del maestro $i$ (valores positivos).
@@ -188,7 +205,10 @@ $$
 + Desarrollo del cuadrado de la suma de poderes de un grupo:
   
 $$
-S_w = \left({\sum_{i = 1}^{n}x_i\cdot p_{iw}}\right)^2 = \sum_{i = 1}^{n}x_i^2\cdot p_{iw}^2 + 2\left({\sum_{i=1}^{n}\sum_{j = i+1}^{n}x_ix_j\cdot p_{iw}p_{jw}}\right) = \sum_{i = 1}^{n}x_i^2\cdot p_{iw} + 2\left({\sum_{i=1}^{n}\sum_{j = i+1}^{n}x_ix_j\cdot Y_{ijw}}\right) = \forall w \in \{1, 2, \ldots, k\}
+S_w = \left({\sum_{i = 1}^{n}x_i\cdot p_{iw}}\right)^2 = \sum_{i = 1}^{n}x_i^2\cdot p_{iw}^2 + 2\left({\sum_{i=1}^{n}\sum_{j = i+1}^{n}x_ix_j\cdot p_{iw}p_{jw}}\right)=
+$$
+$$
+= \sum_{i = 1}^{n}x_i^2\cdot p_{iw} + 2\left({\sum_{i=1}^{n}\sum_{j = i+1}^{n}x_ix_j\cdot Y_{ijw}}\right) \forall w \in \{1, 2, \ldots, k\}
 $$
 
 #### Función objetivo
@@ -201,6 +221,7 @@ $$
 A diferencia del caso anterior, esta versión modela una versión aproximada del problema, en cual se busca minimizar la diferencia del grupo con la mayor suma, y el grupo con la menor suma.
 
 #### Definición de variables
+
 + $n$: número de maestros agua.
 + $k$: número de grupos.
 + $x_i$: poder del maestro $i$ (valores positivos).
@@ -210,6 +231,7 @@ A diferencia del caso anterior, esta versión modela una versión aproximada del
 + $m$: mínima suma de poder entre todos los grupos.
 
 #### Restricciones
+
 + Cada maestro $i$ debe ser asignado a un único grupo:
 $$
 \sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
@@ -237,7 +259,7 @@ $$
 \min: M - m
 $$
 
-#### Análisis de complejidad
+#### Análisis de complejidad:
 Para ambas versiones, como algunas de las variables en cuestión son binarias, el problema se clasifica como un problema de Programación Lineal Entera (PLE). 
 
 La complejidad de resolver un problema de PLE utilizando el algoritmo _branch-and-bound_ es, en el peor de los casos, exponencial en función del número de variables binarias. Por lo tanto, es $\mathcal{O}(2^{nk})$ lo cual implica que a medida que el número de variables binarias aumenta (mayor cantidad de maestros y/o grupos), el tiempo de cómputo necesario para resolver el problema crece exponencialmente.
@@ -245,6 +267,7 @@ La complejidad de resolver un problema de PLE utilizando el algoritmo _branch-an
 ## Algoritmos Greedy
 ### Aproximación de Pakku
 Pakku propone el siguiente algoritmo Greedy:
+
 1. Generar los $k$ grupos vacíos: $\mathcal{O}(k)$
 2. Ordenar los maestros de mayor a menor según su poder: $\mathcal{O}(n\log n)$
 3. Por cada maestro se obtiene el grupo con menor cuadrado de la suma (en $\mathcal{O}(n)$ ) y se lo agrego al mismo: $n\cdot\mathcal{O}(n) = \mathcal{O}(n^2)$
@@ -312,11 +335,11 @@ def aprox_propia(maestros, k):
 # Mediciones
 ## Cotas de aproximación
 Primero es necesario definir:
+
 - $I$: una instancia cualquiera del problema.
 - $z(I)$: una solución óptima para dicha instancia.
 - $A(I)$: la solución aproximada.
 - $r(A)$: la cota máxima para todas las instancias posibles tal que:
-
 $$
 \frac{A(I)}{z(I)} \le r(A)
 $$
@@ -324,6 +347,7 @@ $$
 Con el objetivo de determinar $r(A)$, se generaron múltiples datasets aleatorios con cantidad de maestros $n=1,\ldots,10$ y cantidad de grupos $k=1,\ldots,8$ para llamar tanto al algoritmo de Backtracking (para encontrar la solución óptima) como a los dos algoritmos de aproximación para todas las variaciones posibles de estos $n$ y $k$. 
 
 La idea aquí fue quedarse para cada algoritmo de aproximación con la cota máxima encontrada entre todas las ejecuciones. Las respuestas no determinísticas encontradas fueron (redondeando a 6 decimales):
+
 - Cota aproximación de Pakku: **1.003952**
 - Cota aproximación propia: **1.536598**
 
@@ -334,20 +358,19 @@ Con el fin de comparar el desempeño los algoritmos Greedy propuestos, se realiz
 
 ### Comparación de tiempo consumido
 Se generaron muestras aleatorias de 100 a 5000 maestros en pasos de 100, eligiéndose en cada caso un $k$ válido aleatorio. Por cada tamaño se tomó un tiempo promedio de ejecución por cada algoritmo de aproximación. 
-
 ![Gráfico complejidad](img/grafico_complejidad.png "Gráfico complejidad")
 
 Se puede observar una diferencia notable entre los algoritmos, al punto que el tiempo consumido por el nuestro de complejidad $\mathcal{O}(n\log n)$ queda despreciable al lado del algoritmo de Pakku, de complejidad cuadrática en función de la entrada.
 
 ### Comparación de precisión
 Se generaron muestras aleatorias de 100 a 1000 elementos en pasos de 50, eligiéndose en cada caso un $k$ válido aleatorio. Por cada muestra se obtuvo el coeficiente calculado mediante ambos algoritmos, y además, a partir de la cota de aproximación obtenida previamente, se graficaron los correspondientes valores estimados del coeficiente óptimo por cada algoritmo.
-
 ![Gráfico coeficientes](img/grafico_coeficientes.png "Gráfico coeficientes")
 
 Se observa que el algoritmo de Pakku logró repartir los maestros de una manera más óptima en todos los casos observados, pues devuelve un coeficiente menor. También se observa que este algoritmo es más preciso, pues no se nota mucha diferencia entre el coeficiente obtenido y el mínimo esperado, a diferencia de nuestro algoritmo donde ocurre lo contrario. 
 
 El código utilizado para la generación de los gráficos se encuentra en  _plot_complejidad.py_ y _plot_coeficiente.py_, respectivamente.
 
+\newpage
 # Conclusiones
 - El problema de la Tribu del Agua efectivamente se encuentra en NP y es NP-Completo.
 - Dada la clase de complejidad del mismo, tanto por Backtracking como con Programación Lineal Entera se obtiene la solución óptima en tiempo exponencial.
