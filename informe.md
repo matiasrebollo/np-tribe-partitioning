@@ -332,7 +332,7 @@ La idea aquí fue quedarse para cada algoritmo de aproximación con la cota máx
 El código se encuentra en _mediciones.py_.
 
 # Conclusiones
-- El problema de la Tribu del Agua efectivamente está en NP y es NP-Completo.
+- El problema de la Tribu del Agua efectivamente se encuentra en NP y es NP-Completo.
 - Dada la clase de complejidad del mismo, tanto por Backtracking como con Programación Lineal Entera se obtiene la solución óptima en tiempo exponencial.
-- Comenzar con una aproximación como punto de partida antes de ejecutar el algoritmo de Backtracking le permite hacer una poda y ahorrarse iteraciones.
+- Comenzar con una aproximación como punto de partida antes de ejecutar el algoritmo de Backtracking le permite hacer una poda y ahorrar iteraciones innecesarias.
 - El algoritmo de aproximación propuesto provee soluciones más lejanas a la óptima en comparación al de Pakku, pero en términos de complejidad temporal se ejecuta más rápido.
