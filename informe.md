@@ -319,6 +319,7 @@ Primero es necesario definir:
 - $z(I)$: una solución óptima para dicha instancia.
 - $A(I)$: la solución aproximada.
 - $r(A)$: la cota máxima para todas las instancias posibles tal que:
+
 $$
 \frac{A(I)}{z(I)} \le r(A)
 $$
@@ -330,6 +331,26 @@ La idea aquí fue quedarse para cada algoritmo de aproximación con la cota máx
 - Cota aproximación propia: 1.536598
 
 El código se encuentra en _mediciones.py_.
+
+## Graficos
+
+Con el fin de comparar los algoritmos greedy propuestos, se realizaron comparaciones de tiempo y optimidad para volúmenes grandes.
+
+### Comparación de tiempo consumido
+
+Se generaron muestras aleatorias de 100 a 5000 elementos en pasos de 100, elijiendose en cada caso un $k$ valido aleatorio. Por cada tamaño se tomó un tiempo promedio de ejecución por cada algoritmo de aproximación. 
+
+![Gráfico complejidad](src/grafico_complejidad.png "Gráfico complejidad")
+
+Se puede observar una diferencia notable entre los algoritmos, al punto que el tiempo consumido por nuestro algoritmo de complejidad $\mathcal{O}(n\log n)$ queda despreciable al lado del algoritmo de Pakku, de complejidad cuadrática en función de la entrada.
+
+### Comparación de precisión
+
+Se generaron muestras aleatorias de 100 a 1000 elementos en pasos de 50, elijiendose en cada caso un $k$ valido aleatorio. Por cada muestra se obtuvo su coeficiente calculado mediante ambos algoritmos, y además, a partir de la cota de aproximación obtenida previamente, se graficaron los correspondientes valores estimados del coeficiente óptimo por cada algoritmo.
+
+![Gráfico coeficientes](src/grafico_coeficientes.png "Gráfico coeficientes")
+
+Se observa que el algoritmo de Pakku logró repartir de una manera más óptima en todos los casos observados, pues devuelve un coeficiente menor. También se observa que este algoritmo es más preciso, pues no se nota mucha diferencia entre el coeficiente obtenido y el mínimo esperado, a diferencia de nuestro algoritmo donde ocurre lo contrario. 
 
 # Conclusiones
 - El problema de la Tribu del Agua efectivamente se encuentra en NP y es NP-Completo.
