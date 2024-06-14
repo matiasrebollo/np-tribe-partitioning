@@ -186,8 +186,9 @@ $$
 $$
 
 + Desarrollo del cuadrado de la suma de poderes de un grupo:
+  
 $$
-S_w = \left({\sum_{i = 1}^{n}x_i\cdot p_{iw}}\right)^2 = \sum_{i = 1}^{n}x_i^2\cdot p_{iw} + 2\left({\sum_{i=1}^{n}\sum_{j = i+1}^{n}x_ix_j\cdot Y_{ijw}}\right) \forall w
+S_w = \left({\sum_{i = 1}^{n}x_i\cdot p_{iw}}\right)^2 = \sum_{i = 1}^{n}x_i^2\cdot p_{iw}^2 + 2\left({\sum_{i=1}^{n}\sum_{j = i+1}^{n}x_ix_j\cdot p_{iw}p_{jw}}\right) = \sum_{i = 1}^{n}x_i^2\cdot p_{iw} + 2\left({\sum_{i=1}^{n}\sum_{j = i+1}^{n}x_ix_j\cdot Y_{ijw}}\right) = \forall w \in \{1, 2, \ldots, k\}
 $$
 
 #### Función objetivo
