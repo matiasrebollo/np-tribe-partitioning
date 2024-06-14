@@ -57,7 +57,7 @@ def cuadrado_suma_grupo(S_i):
   return suma ** 2
 ```
 
-La complejidad temporal del verificador es $\mathcal{O}(n)$ + $\mathcal{O}(n)$ ≈ $\mathcal{O}(n)$ en función de la entrada. Por lo tanto, TA $\in$ NP.
+La complejidad temporal del verificador es $\mathcal{O}(n)$ + $\mathcal{O}(n) \approx \mathcal{O}(n)$ en función de la entrada. Por lo tanto, TA $\in$ NP.
 
 ### Cualquier problema NP-Completo puede reducirse polinomialmente a este problema
 
@@ -95,7 +95,7 @@ Además, $z_1$ y $z_2$ no pueden estar en el mismo grupo porque juntos suman $su
 Por lo tanto, si se encuentra solución a TA con $B = 2(sum(S) + T)^2$, existe solución a SS. Caso contrario, implica que no hay subconjunto de $S$ que sume exactamente T y no existe solución a SS.
 
 #### Si hay solución a SS
-Suponiendo que existe una solución $S'$ tal que $sum(S') = T$, entonces $sum(S' \cup z1) = sum(S-S'\cup z2)$. Por consiguiente, es posible dividir $S$ en dos grupos de mismo poder $S_1 = \set{S', z_1}$ y $S_2 = \set{S-S', z_2}$, que es la mejor solución a TA. Desarrollando el coeficiente:
+Suponiendo que existe una solución $S'$ tal que $sum(S') = T$, entonces $sum(S' \cup z1) = sum(S-S'\cup z2)$. Por consiguiente, es posible dividir $S$ en dos grupos de mismo poder $S_1 = \{S', z_1\}$ y $S_2 = \{S-S', z_2\}$, que es la mejor solución a TA. Desarrollando el coeficiente:
 
 $$
 \sum_{i=1}^{k} {\left({\sum_{x_j\in S_i}x_j}\right)}^2 = sum(S_1)^2 +  sum(S_2)^2 = (T + sum(S))^2 + (sum(S)-T + 2T)^2 = (sum(S) + T)^2 + (sum(S) + T)^2 = 2(sum(S) + T)^2
@@ -249,7 +249,7 @@ Pakku propone el siguiente algoritmo Greedy:
 2. Ordenar los maestros de mayor a menor según su poder: $\mathcal{O}(n\log n)$
 3. Por cada maestro se obtiene el grupo con menor cuadrado de la suma (en $\mathcal{O}(n)$ ) y se lo agrego al mismo: $n\cdot\mathcal{O}(n) = \mathcal{O}(n^2)$
 
-Complejidad temporal: $\mathcal{O}(k) + \mathcal{O}(n\log n) + \mathcal{O}(n^2) ≈ \mathcal{O}(n^2)$
+Complejidad temporal: $\mathcal{O}(k) + \mathcal{O}(n\log n) + \mathcal{O}(n^2) \approx \mathcal{O}(n^2)$
 en función de los datos de entrada.
 
 #### Código
@@ -280,7 +280,7 @@ Aprovechando la idea de que el algoritmo en su mejor caso logra repartir los mae
 2. Se ordenan los maestros de mayor a menor según su poder en $\mathcal{O}(n\log n)$.
 3. Se iteran los maestros y se van añadiendo en un mismo grupo hasta que el poder acumulado del mismo alcance o se pase de $p$, continuando con el siguiente grupo cuando eso ocurra. Esto se hace en $\mathcal{O}(n)$.
 
-Complejidad temporal total: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) ≈ \mathcal{O}(n\log n)$ en función de los datos de entrada.
+Complejidad temporal total: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) \approx \mathcal{O}(n\log n)$ en función de los datos de entrada.
 
 #### Código
 ```python
