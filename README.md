@@ -65,10 +65,10 @@ Agregar cualquier conclusión que parezca relevante.
 - Para ejecutar los algoritmos Greedy de aproximación, ingresar:
     |   `python src/greedy.py <path-a-dataset>` |
     |:-------:|
-- Para ejecutar **todos** los tests, ingresar en una terminal:
+- Para ejecutar **todos** los tests, ingresar:
     |`python tests.py`  |
     |:-------:|
-- Para ejecutar un test en particular, ingresar en una terminal:
+- Para ejecutar un test en particular, ingresar:
     |`python tests.py Test.<nombre-del-test>`  |
     |:-------:|
     

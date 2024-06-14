@@ -57,7 +57,7 @@ def cuadrado_suma_grupo(S_i):
   return suma ** 2
 ```
 
-La complejidad temporal del verificador es $\mathcal{O}(n)$ + $\mathcal{O}(n)$ = $\mathcal{O}(n)$ en función de la entrada. Por lo tanto, TA $\in$ NP.
+La complejidad temporal del verificador es $\mathcal{O}(n)$ + $\mathcal{O}(n)$ ≈ $\mathcal{O}(n)$ en función de la entrada. Por lo tanto, TA $\in$ NP.
 
 ### Cualquier problema NP-Completo puede reducirse polinomialmente a este problema
 
@@ -110,20 +110,21 @@ $$
 Finalmente, SS $\le_{p}$ TA y como TA es NP también es NP-Completo.
  
 # Algoritmos y complejidad
-Se propusieron varios algoritmos siguiendo distintas técnicas de programación, siendo algunos de ellos óptimos y otros versiones aproximadas. Para los siguientes casos se tiene en cuenta la versión de optimización de TA.
+Se proponen varios algoritmos siguiendo distintas técnicas de diseño, siendo algunos de ellos óptimos y otros aproximaciones. Para todos los siguientes casos se tiene en cuenta la versión de optimización de TA.
 
 ## Backtracking
-Implementamos el siguiente algoritmo:
+El algoritmo implementado es el siguiente:
 
-0. Calculo una aproximación con un algoritmo greedy, que sirva como poda inicial.
-1. Si mi asignación actual cubre a todo los maestros, devuelvo la mejor entre esta y la calculada anteriormente.
-2. Si no se terminaron de repartir los maestros pero el coeficiente actual ya supera el mejor coeficiente hasta el momento, retrocedo en la llamada recursiva y vuelvo al paso 3.
-3. Elijo un grupo y asigno al maestro actual a tal grupo.
-4. Llamo recursivamente a 1. con el maestro siguiente y la mejor solución calculada hasta el momento. 
-5. Si llegué hasta acá, ya se evaluaron todas las asignaciones posible para el maestro actual, devuelvo la mejor.
+0. Se calcula una aproximación con un algoritmo Greedy, para que sirva como poda inicial.
+1. Si la asignación actual cubre a todos los maestros, se devuelve la mejor (la de menor coeficiente) entre esta y la calculada anteriormente.
+2. Si todavía no se terminaron de repartir los maestros pero el coeficiente parcial actual ya supera al mejor coeficiente encontrado hasta el momento, se retrocede en la llamada recursiva y se vuelve al paso 3.
+3. Se elige un grupo y se asigna al maestro actual al mismo.
+4. Se llama recursivamente al paso 1 con el maestro siguiente y la mejor solución calculada hasta el momento. 
+5. Cuando sale del _for_ es porque ya se evaluaron todas las asignaciones posibles para el maestro actual, y se devuelve la óptima.
 
 #### Código
 ```python
+# Código en bt.py
 def backtracking(maestros, k):
     solucion_greedy = aprox_pakku(maestros, k)  # Solucion aproximada
     suma_greedy = obtener_suma(solucion_greedy)
@@ -153,39 +154,44 @@ def backtracking_rec(maestros, grupos, m, solucion_anterior, suma_anterior):
     return optimo_actual
 ```
 
+#### Análisis de complejidad
+- Aproximación inicial: $\mathcal{O}(n^2)$ (detallado en [Aproximación de Pakku](#aproximación-de-pakku))
+- La función recursiva explora todas las posibles formas de asignar los $n$ maestros en los $k$ grupos, y más allá de las podas que agilizan este proceso, existen $k^n$ posibles asignaciones: $\mathcal{O}(k^n)$
+- Por llamado a esta función se realizan operaciones lineales como _obtener_suma_ y _deepcopy_: $\mathcal{O}(n)$
+
+Por lo tanto, la complejidad total es $\mathcal{O}(n^2) + \mathcal{O}(k^n \cdot n) ≈ \mathcal{O}(k^n \cdot n)$.
+
 ## Programación Lineal
 Se plantean dos modelos distintos y se utiliza la librería _pulp_ de Python para ejecutarlos. El código de ambos se encuentra en _pl.py_.
 
 ### Versión óptima
-En esta versión se busca resolver el problema original.
-#### Constantes
-+ $n$: número de maestros agua.
-+ $k$: número de grupos.
-+ $c_i$: poder del maestro $i$ (valores positivos).
+En esta versión se busca resolver el problema original y obtener la solución óptima del mismo.
 
 #### Definición de variables
-+ $X_{ij}$: variable booleana, "maestro $i$ en el grupo $j$"
-+ $Y_{ijw}$: variable booleana, $X_{iw} \land X_{jw}$
++ $n$: número de maestros agua.
++ $k$: número de grupos.
++ $x_i$: poder del maestro $i$ (valores positivos).
++ $p_{ij}$: variable binaria que indica si el maestro $i$ está en el grupo $j$ ($p_{ij} = 1$) o no ($p_{ij} = 0$).
++ $Y_{ijw}$: variable booleana, $p_{iw} \land p_{jw}$.
 + $S_i$: cuadrado de la suma de poder de los maestros del grupo $i$.
 
 #### Restricciones
 
-+ _Cada maestro i debe ser asignado a un único grupo:_
++ Cada maestro $i$ debe ser asignado a un único grupo:
 
 $$
-\sum_{j=1}^{k} X_{ij} = 1 \forall i
+\sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
 $$
 
-+ $Y_{ijw} = X_{iw} \land X_{jw}$:
++ $Y_{ijw} = p_{iw} \land p_{jw}$:
 
 $$
-2Y_{ijw} \le X_{iw} + X_{jw} \le Y_{ijw} + 1
+2Y_{ijw} \le p_{iw} + p_{jw} \le Y_{ijw} + 1
 $$
 
 + Desarrollo del cuadrado de la suma de poderes de un grupo:
-
 $$
-S_w = \left({\sum\_{i = 1}^{n}c_i\cdot X_{iw}}\right)^2 = \sum\_{i = 1}^{n}c_i^2\cdot X_{iw} + 2\left({\sum_{i=1}^{n}\sum\_{j = i+1}^{n}c_ic_j\cdot Y_{ijw}}\right) \forall w
+S_w = \left({\sum_{i = 1}^{n}x_i\cdot p_{iw}}\right)^2 = \sum_{i = 1}^{n}x_i^2\cdot p_{iw} + 2\left({\sum_{i=1}^{n}\sum_{j = i+1}^{n}x_ix_j\cdot Y_{ijw}}\right) \forall w
 $$
 
 #### Función objetivo
@@ -195,7 +201,7 @@ $$
 $$
 
 ### Versión aproximada
-A diferencia del caso anterior,esta versión modela una versión aproximada del problema, en cual se busca minimizar la diferencia del grupo con la mayor suma, y el grupo con la menor suma.
+A diferencia del caso anterior, esta versión modela una versión aproximada del problema, en cual se busca minimizar la diferencia del grupo con la mayor suma, y el grupo con la menor suma.
 
 #### Definición de variables
 + $n$: número de maestros agua.
@@ -207,8 +213,7 @@ A diferencia del caso anterior,esta versión modela una versión aproximada del 
 + $m$: mínima suma de poder entre todos los grupos.
 
 #### Restricciones
-+ Cada maestro debe estar asignado exactamente a un grupo:
-+ 
++ Cada maestro $i$ debe ser asignado a un único grupo:
 $$
 \sum_{j=1}^{k} p_{ij} = 1 \quad \forall i \in \{1, 2, \ldots, n\}
 $$
@@ -236,60 +241,55 @@ $$
 $$
 
 #### Análisis de complejidad
-Para resolver el problema se utiliza el método Simplex, que es un algoritmo utilizado en problemas de Programación Lineal (PL). Este método es eficiente para encontrar soluciones óptimas en problemas de PL cuando las restricciones y la función objetivo son lineales y las variables pueden tomar valores reales.
-
-Sin embargo, en este caso específico, algunas de las variables son binarias y pueden tomar únicamente los valores 0 o 1. Debido a la presencia de las mismas, el problema se clasifica como un problema de Programación Lineal Entera (PLE). 
+Para ambas versiones, como algunas de las variables en cuestión son binarias, el problema se clasifica como un problema de Programación Lineal Entera (PLE). 
 
 La complejidad de resolver un problema de PLE utilizando el algoritmo _branch-and-bound_ es, en el peor de los casos, exponencial en función del número de variables binarias. Por lo tanto, es $\mathcal{O}(2^{nk})$ lo cual implica que a medida que el número de variables binarias aumenta (mayor cantidad de maestros y/o grupos), el tiempo de cómputo necesario para resolver el problema crece exponencialmente.
 
 ## Algoritmos Greedy
 ### Aproximación de Pakku
+Pakku propone el siguiente algoritmo Greedy:
+1. Generar los $k$ grupos vacíos: $\mathcal{O}(k)$
+2. Ordenar los maestros de mayor a menor según su poder: $\mathcal{O}(n\log n)$
+3. Por cada maestro se obtiene el grupo con menor cuadrado de la suma (en $\mathcal{O}(n)$ ) y se lo agrego al mismo: $n\cdot\mathcal{O}(n) = \mathcal{O}(n^2)$
 
-Pakku propone el siguiente algoritmo greedy:
-+ Genero los $k$ grupos vacios. $\mathcal{O}(k)$
-+ Ordeno los maestros de mayor a menor según su habilidad. $\mathcal{O}(n\log n)$
-+ Por cada maestro obtengo el grupo con menor cuadrado de la suma (en $\mathcal{O}(n)$ ) y lo agrego a este. $n\mathcal{O}(n) = \mathcal{O}(n^2)$
-
-Complejidad temporal: $\mathcal{O}(k) + \mathcal{O}(n\log n) + \mathcal{O}(n^2) = \mathcal{O}(n^2 + k)$
+Complejidad temporal: $\mathcal{O}(k) + \mathcal{O}(n\log n) + \mathcal{O}(n^2) ≈ \mathcal{O}(n^2)$
 en función de los datos de entrada.
-
-Este no es un algoritmo óptimo, pues un contraejemplo es el siguiente:
 
 #### Código
 ```python
+# Código en greedy.py
 def aprox_pakku(maestros, k):
-    """Algoritmo greedy propuesto en el enunciado."""
-    # Formo los k grupos vacios
+    """Algoritmo Greedy propuesto en el enunciado."""
+    # Se forman los k grupos vacios
     grupos = []
     for _ in range(k):
         grupos.append([])
 
-    # Ordeno los maestros por poder de forma decreciente
+    # Se ordenan los maestros por poder de forma decreciente
     maestros.sort(reverse = True, key = lambda m: m[PODER])
 
     for maestro in maestros:
-        # Agrego el maestro al grupo de menor suma
+        # Se agrega el maestro al grupo de menor suma
         grupo = min(grupos, key=cuadrado_suma_grupo) # O(n)
         grupo.append(maestro)
 
-    return grupos 
+    return grupos
 ```
 
-### Aproximación propuesta
+### Aproximación Greedy propuesta
 Aprovechando la idea de que el algoritmo en su mejor caso logra repartir los maestros de forma completamente equitativa (tal que cada grupo tenga $\frac{1}{k} \sum x_i$ de poder acumulado), se propone el siguiente algoritmo:
 
 1. Se obtiene el numero $p = \frac{1}{k} \sum x_i$ en $\mathcal{O}(n)$.
 2. Se ordenan los maestros de mayor a menor según su poder en $\mathcal{O}(n\log n)$.
 3. Se iteran los maestros y se van añadiendo en un mismo grupo hasta que el poder acumulado del mismo alcance o se pase de $p$, continuando con el siguiente grupo cuando eso ocurra. Esto se hace en $\mathcal{O}(n)$.
 
-Complejidad temporal total: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) = \mathcal{O}(n\log n)$ en función de los datos de entrada.
-
-Este no se trata de un algoritmo óptimo, tal como observamos en el siguiente contraejemplo:
+Complejidad temporal total: $\mathcal{O}(n) + \mathcal{O}(n\log n) + \mathcal{O}(n) ≈ \mathcal{O}(n\log n)$ en función de los datos de entrada.
 
 #### Código
 ```python
+# Código en greedy.py
 def aprox_propia(maestros, k):
-    """Algoritmo greedy propuesto por nosotros"""
+    """Algoritmo Greedy propuesto por nosotros"""
     grupos = []
     nuevo_grupo = []
     poder_acumulado = 0
@@ -312,11 +312,27 @@ def aprox_propia(maestros, k):
     return grupos
 ```
 
-# Casos de prueba
-
-
 # Mediciones
+## Algoritmos de aproximación
+Primero es necesario definir:
+- $I$: una instancia cualquiera del problema.
+- $z(I)$: una solución óptima para dicha instancia.
+- $A(I)$: la solución aproximada.
+- $r(A)$: la cota máxima para todas las instancias posibles tal que:
+$$
+\frac{A(I)}{z(I)} \le r(A)
+$$
 
+Con el objetivo de determinar $r(A)$, se generaron múltiples datasets aleatorios con cantidad de maestros $n=1,\ldots,10$ y cantidad de grupos $k=1,\ldots,8$ para llamar tanto al algoritmo de Backtracking (para encontrar la solución óptima) como a los dos algoritmos de aproximación para todas las variaciones posibles de estos $n$ y $k$. 
+
+La idea aquí fue quedarse para cada algoritmo de aproximación con la cota máxima encontrada entre todas las ejecuciones. Las respuestas no determinísticas encontradas fueron (redondeando a 6 decimales):
+- Cota aproximación de Pakku: 1.003952
+- Cota aproximación propia: 1.536598
+
+El código se encuentra en _mediciones.py_.
 
 # Conclusiones
-- El problema de la Tribu del Agua efectivamente está en NP y es NP-Completo.
+- El problema de la Tribu del Agua efectivamente se encuentra en NP y es NP-Completo.
+- Dada la clase de complejidad del mismo, tanto por Backtracking como con Programación Lineal Entera se obtiene la solución óptima en tiempo exponencial.
+- Comenzar con una aproximación como punto de partida antes de ejecutar el algoritmo de Backtracking le permite hacer una poda y ahorrar iteraciones innecesarias.
+- El algoritmo de aproximación propuesto provee soluciones más lejanas a la óptima en comparación al de Pakku, pero en términos de complejidad temporal se ejecuta más rápido.
