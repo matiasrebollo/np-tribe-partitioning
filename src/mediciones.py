@@ -1,3 +1,4 @@
+import math
 import random
 
 from bt import backtracking
@@ -6,10 +7,16 @@ from utils import obtener_suma
 
 MAX_MAESTROS = 10
 MAX_GRUPOS = 8
+CANT_DECIMALES = 6
+
 
 def generar_dataset(n):
     NOMBRES = ["Pakku", "Yue", "Yakone", "Wei", "Hasook", "Senna", "Hama", "Amon", "Sangok", "Misu"]
     return [tuple([NOMBRES[i], random.randint(1, 1000)]) for i in range(n)]
+
+def redondear_decimales(numero, decimales):
+    factor = 10 ** decimales
+    return math.ceil(numero * factor) / factor
 
 def buscar_cotas_aprox():
     cota_pakku = 1
@@ -30,8 +37,8 @@ def buscar_cotas_aprox():
             if coef_aprox_propia / coef_opt > cota_aprox_propia:
                 cota_aprox_propia = coef_aprox_propia / coef_opt
     
-    print("Cota aproximacion de Pakku: ", cota_pakku)
-    print("Cota aproximacion propia: ", cota_aprox_propia)
+    print("Cota aproximacion de Pakku: ", redondear_decimales(cota_pakku, CANT_DECIMALES))
+    print("Cota aproximacion propia: ", redondear_decimales(cota_aprox_propia, CANT_DECIMALES))
 
 def main():
     buscar_cotas_aprox()

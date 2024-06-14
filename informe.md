@@ -313,7 +313,26 @@ def aprox_propia(maestros, k):
 ```
 
 # Mediciones
+## Algoritmos de aproximación
+Primero es necesario definir:
+- $I$: una instancia cualquiera del problema.
+- $z(I)$: una solución óptima para dicha instancia.
+- $A(I)$: la solución aproximada.
+- $r(A)$: la cota máxima para todas las instancias posibles tal que:
+$$
+\frac{A(I)}{z(I)} \le r(A)
+$$
 
+Con el objetivo de determinar $r(A)$, se generaron múltiples datasets aleatorios con cantidad de maestros $n=1,\ldots,10$ y cantidad de grupos $k=1,\ldots,8$ para llamar tanto al algoritmo de Backtracking (para encontrar la solución óptima) como a los dos algoritmos de aproximación para todas las variaciones posibles de estos $n$ y $k$. 
+
+La idea aquí fue quedarse para cada algoritmo de aproximación con la cota máxima encontrada entre todas las ejecuciones. Las respuestas no determinísticas encontradas fueron (redondeando a 6 decimales):
+- Cota aproximación de Pakku: 1.003952
+- Cota aproximación propia: 1.536598
+
+El código se encuentra en _mediciones.py_.
 
 # Conclusiones
 - El problema de la Tribu del Agua efectivamente está en NP y es NP-Completo.
+- Dada la clase de complejidad del mismo, tanto por Backtracking como con Programación Lineal Entera se obtiene la solución óptima en tiempo exponencial.
+- Comenzar con una aproximación como punto de partida antes de ejecutar el algoritmo de Backtracking le permite hacer una poda y ahorrarse iteraciones.
+- El algoritmo de aproximación propuesto provee soluciones más lejanas a la óptima en comparación al de Pakku, pero en términos de complejidad temporal se ejecuta más rápido.
