@@ -1,4 +1,13 @@
-# Trabajo Práctico 3: Problemas NP-Completos para la defensa de la Tribu del Agua
+# Particionamiento óptimo de la Tribu del Agua - Problema NP-completo
+
+Este programa aborda un problema NP-completo de particionamiento de poderes en subgrupos, buscando minimizar el coeficiente de suma de cuadrados de habilidades. Se utilizan diversas estrategias para resolverlo y aproximarlo:
+
+- Algoritmo de **Backtracking**
+- Modelado con **Programación Lineal**
+- Algoritmos **Greedy** de aproximación
+
+Trabajo práctico para la materia **Teoría de Algoritmos** (FIUBA).
+
 ## Ejecución
 
 - Para ejecutar **todos** los distintos métodos implementados para un determinado dataset, ingresar en una terminal (desde el root del repositorio):
